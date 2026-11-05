@@ -61,4 +61,4 @@ export interface Packet {
   source_record_hashes: Record<string, string>;
 }
 export type Resource<T> = { status: 'loading' } | { status: 'error'; message: string } | { status: 'ready'; data: T };
-export type Route = { page: 'overview' } | { page: 'investigations' } | { page: 'sources' } | { page: 'investigation'; id: string };
+export type Route = { page: 'overview' } | { page: 'investigations' } | { page: 'sources' } | { page: 'verification' } | { page: 'investigation'; id: string };

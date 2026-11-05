@@ -1,5 +1,6 @@
 """Foundation HTTP API. Operational records are always selected as of a clock."""
 import logging
+import json
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query, Request
@@ -39,6 +40,7 @@ def create_app(settings: Optional[Settings] = None):
     workflow_store = WorkflowStore(settings.workflow_path)
     workflows = WorkflowService(workflow_store, intelligence, storage)
     app.state.workflows = workflows
+    verification_report_path = ROOT / 'docs' / 'validation' / 'release_report.json'
     web_root = ROOT / "apps" / "web" / "dist"
     if (web_root / "assets").is_dir():
         app.mount("/assets", StaticFiles(directory=str(web_root / "assets")), name="workspace-assets")
@@ -160,6 +162,18 @@ def create_app(settings: Optional[Settings] = None):
             raise HTTPException(status_code=409, detail=str(exc)) from exc
         except OSError as exc:
             raise HTTPException(status_code=503, detail="Workflow evidence storage is unavailable") from exc
+
+    @app.get("/api/evaluation", tags=["verification"])
+    def evaluation_report(as_of: Optional[str] = None):
+        try:
+            report = json.loads(verification_report_path.read_text())
+            if report.get('schema_version') != 1 or 'dataset' not in report:
+                raise ValueError('Invalid report')
+        except (OSError, ValueError):
+            raise HTTPException(status_code=503, detail="Demo verification report is unavailable") from None
+        analysis = intelligence.analysis(clock(as_of))
+        return {"report": report, "matches_selected_snapshot": report['dataset']['input_hash'] == analysis['input_hash']
+                and report['dataset']['engine_version'] == analysis['engine_version']}
 
     @app.get("/api/workflow/meta", tags=["workflow"])
     def workflow_meta():

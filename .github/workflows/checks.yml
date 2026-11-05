@@ -27,3 +27,4 @@ jobs:
       - run: npm --prefix apps/web test
       - run: npm --prefix apps/web run build
       - run: python scripts/smoke_workspace.py
+      - run: python scripts/verify_release.py --reports-only --output data/verification/ci_report.json

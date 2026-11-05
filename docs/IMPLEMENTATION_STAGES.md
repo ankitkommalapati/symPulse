@@ -14,4 +14,4 @@ Each stage is implemented, verified and submitted as a separate pull request. Wo
 
 Stage 1 supplies data access and evidence persistence. It does not expose investigation, simulation or approval endpoints. These appear only when their behavior has been implemented in the authorized stage.
 
-Stages 1–5 are implemented and merged. Stage 6 adds durable demo plans, approval, owners, follow-up tasks, simulated outcomes and audit history for review. Live-model and visual-browser verification remain outstanding. Stage 7 has not started. See [response workflows](WORKFLOWS.md).
+Stages 1–6 are implemented and merged. Stage 7 adds offline fixture evaluation, a recorded release report, three API rehearsals, timings, isolated demo sessions and presentation materials for review. Fixture adjudication, live-model inference, visual browser review and the subsecond simulation target remain outstanding. See [release verification](VERIFICATION.md).

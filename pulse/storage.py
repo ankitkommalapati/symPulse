@@ -25,6 +25,11 @@ class EvidenceStore:
         digest = hashlib.sha256(data).hexdigest()
         target = self._path(digest)
         target.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            if target.read_bytes() == data:
+                return digest
+        except FileNotFoundError:
+            pass
         # Atomic replacement also repairs a damaged object with its original content.
         temp_name = None
         try:
