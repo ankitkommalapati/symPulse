@@ -50,9 +50,19 @@ def main():
             artifact = get(evidence["artifact_url"])
             if artifact["record"] != evidence["record"]:
                 raise RuntimeError("Evidence artifact does not match source snapshot")
+            investigations = get("/api/investigations")
+            if not any(r["unit_id"] == "ICU" and r["priority"] == "high" for r in investigations["items"]):
+                raise RuntimeError("ICU readiness investigation was not detected")
+            packet = get("/api/investigations/FAC-01:ICU:readiness")
+            if packet["metrics"]["coverage"]["uncovered_rn_hours"] != 36:
+                raise RuntimeError("ICU coverage gap does not reconcile")
+            saved = get(packet["artifact_url"])
+            if saved["input_hash"] != packet["input_hash"] or saved["metrics"] != packet["metrics"]:
+                raise RuntimeError("Persisted investigation differs from its source analysis")
             print(json.dumps({"live_http": "passed", "readiness": ready["status"],
                               "source_tables": len(sources["items"]), "units": len(units["items"]),
-                              "evidence_round_trip": "passed"}))
+                              "evidence_round_trip": "passed", "investigation_round_trip": "passed",
+                              "icu_uncovered_rn_hours": packet["metrics"]["coverage"]["uncovered_rn_hours"]}))
         finally:
             server.terminate()
             try:

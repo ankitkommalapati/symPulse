@@ -12,6 +12,7 @@ Operational intelligence prototype for the **Mission: Impact** hackathon, Novemb
 4. [Two-day execution and demo](docs/BUILD_AND_DEMO.md): implementation order, cut lines, pitch and impact measurement.
 5. [Implementation stages](docs/IMPLEMENTATION_STAGES.md): stage boundaries and review gates.
 6. [Application foundation](docs/FOUNDATION.md): configuration, API and evidence persistence.
+7. [Operational intelligence](docs/INTELLIGENCE.md): detection rules, findings, provenance and investigation API.
 
 ## Run the service
 
@@ -29,7 +30,7 @@ Run the foundation checks with `python -m unittest discover -s tests -v`.
 
 ## Runnable synthetic-data starter
 
-Requires Python 3.9+; no third-party packages, credentials or network access.
+Requires Python 3.9+ with the project dependencies installed. Data generation uses no credentials or network access.
 
 ```bash
 python3 scripts/generate_data.py
@@ -38,7 +39,7 @@ python3 scripts/validate_data.py
 
 Creates JSONL source-shaped extracts, an application-readable SQLite database, a file manifest, a generated data dictionary, a computed hero scenario summary, and a separate evaluation fixture suite under `data/`. Generated artifacts are reproducible with seed 42. These schemas and distributions are **our prototype contracts**, informed by public workflows; they are not symplr's private schemas, real exports, or measured hospital distributions.
 
-The service provides source access and persistent evidence snapshots. The [stage plan](docs/IMPLEMENTATION_STAGES.md) defines the remaining application capabilities. Evaluation fixtures have labels and are excluded from the operational API.
+The service provides source access, persistent evidence snapshots and deterministic unit readiness investigations. Open `/api/investigations` for findings and `/api/investigations/FAC-01:ICU:readiness` for the complete ICU evidence packet. The [stage plan](docs/IMPLEMENTATION_STAGES.md) defines the application stages. Evaluation fixtures have labels and are excluded from operational analysis.
 
 ## Demo clock
 
