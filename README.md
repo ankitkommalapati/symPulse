@@ -30,6 +30,6 @@ Frozen at **November 5, 2026, 08:00 America/Chicago**, for a fictional US hospit
 
 ## Scope
 
-Four operational domains; five logical feeds because provider credentials and physician assignments have different owners. One ICU investigation; six comparison departments; deterministic staffing comparisons; human-approved local action plans.
+Four operational domains; five logical feeds because provider credentials and physician assignments have different owners. One ICU investigation within six departments; deterministic staffing comparisons; human-approved local action plans.
 
 No production integrations, patient records, autonomous source-system changes, or validated clinical risk predictions.
