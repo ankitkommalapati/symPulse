@@ -7,3 +7,6 @@ data/generated/
 data/evidence/
 *.pyc
 .coverage
+node_modules/
+apps/web/dist/
+*.tsbuildinfo
