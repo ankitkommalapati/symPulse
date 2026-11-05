@@ -22,7 +22,10 @@ def main():
         port = probe.getsockname()[1]
     base = 'http://127.0.0.1:' + str(port)
     env = dict(os.environ, PULSE_PORT=str(port), PULSE_HOST='127.0.0.1', VITE_PULSE_VERIFY_API=base)
-    with tempfile.TemporaryFile(mode='w+', encoding='utf-8') as log:
+    with tempfile.TemporaryDirectory(prefix='pulse-workflow-check-') as folder, tempfile.TemporaryFile(mode='w+', encoding='utf-8') as log:
+        env.update(PULSE_WORKFLOW_PATH=str(Path(folder) / 'workflow.sqlite'),
+                   PULSE_EVIDENCE_DIR=str(Path(folder) / 'evidence'), PULSE_LLM_ENDPOINT='',
+                   PULSE_LLM_MODEL='', PULSE_LLM_API_KEY='')
         server = subprocess.Popen([sys.executable, '-m', 'pulse', 'serve'], cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
         try:
             for _ in range(50):

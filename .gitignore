@@ -10,3 +10,4 @@ data/evidence/
 node_modules/
 apps/web/dist/
 *.tsbuildinfo
+data/workflow/

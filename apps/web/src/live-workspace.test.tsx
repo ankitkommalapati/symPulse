@@ -35,13 +35,39 @@ it.skipIf(!base)('traces a real ICU measurement to captured evidence and browses
  await user.click(screen.getByRole('button', { name: 'Calculate this scenario' }));
  await screen.findByRole('link', { name: 'Open saved simulation evidence' }, { timeout: 15000 });
  expect(screen.getByText(/STEPDOWN: 0 uncovered RN-hours/)).toBeVisible();
+ await user.click(await screen.findByRole('button', { name: 'Save draft plan' }));
+ await screen.findByRole('button', { name: 'Submit for review' }, { timeout: 15000 });
+ await user.click(screen.getByRole('button', { name: 'Submit for review' }));
+ await screen.findByRole('button', { name: 'Approve demo plan' });
+ expect(screen.getByRole('button', { name: 'Approve demo plan' })).toBeDisabled();
+ await user.click(screen.getByRole('checkbox', { name: /I acknowledge this records a demo/ }));
+ await user.click(screen.getByRole('button', { name: 'Approve demo plan' }));
+ await screen.findByRole('button', { name: 'Record simulated implementation' });
+ await user.click(screen.getByRole('checkbox', { name: /I acknowledge this records a demo/ }));
+ await user.click(screen.getByRole('button', { name: 'Record simulated implementation' }));
+ await user.click(await screen.findByRole('button', { name: 'Start monitoring' }));
+ await screen.findByRole('button', { name: 'Close with simulated outcomes' });
+ expect(screen.getByRole('button', { name: 'Close with simulated outcomes' })).toBeDisabled();
+ let pending = screen.getAllByRole('button', { name: 'Record simulated task completion' }).length;
+ while (pending > 0) {
+  await user.type(screen.getByRole('textbox', { name: 'Reason or simulated outcome note' }), 'Synthetic follow-up reviewed for this demo.');
+  await user.click(screen.getByRole('checkbox', { name: /I acknowledge this records a demo/ }));
+  await user.click(screen.getAllByRole('button', { name: 'Record simulated task completion' })[0]);
+  pending -= 1;
+  await waitFor(() => { expect(screen.getByRole('textbox', { name: 'Reason or simulated outcome note' })).toBeVisible(); expect(screen.queryAllByRole('button', { name: 'Record simulated task completion' })).toHaveLength(pending); }, { timeout: 10000 });
+ }
+ await user.type(screen.getByRole('textbox', { name: 'Reason or simulated outcome note' }), 'All simulated follow-ups have recorded outcomes.');
+ await user.click(screen.getByRole('checkbox', { name: /I acknowledge this records a demo/ }));
+ await user.click(screen.getByRole('button', { name: 'Close with simulated outcomes' }));
+ await screen.findByRole('heading', { name: 'Closed as a simulated workflow outcome' });
+ expect(screen.getByText('The operational source investigation remains unchanged.')).toBeVisible();
  await user.click(screen.getByRole('link', { name: /^Data sources$/ }));
  await screen.findByRole('heading', { name: 'The evidence behind Pulse.' });
  await user.click(screen.getByRole('button', { name: /^Employees/ }));
  await user.click((await screen.findAllByRole('button', { name: /Inspect source evidence/ }, { timeout: 10000 }))[0]);
  await screen.findByRole('dialog', { name: 'Source record' });
  expect(screen.getByText('Employee Number')).toBeVisible();
-}, 45000);
+}, 60000);
 it.skipIf(!base)('replays the real earlier snapshot and exposes an invalid investigation gracefully', async () => {
  const originalFetch = globalThis.fetch;
  vi.stubGlobal('fetch', (input: string, init?: RequestInit) => originalFetch(`${base}${input}`, init));
@@ -53,4 +79,4 @@ it.skipIf(!base)('replays the real earlier snapshot and exposes an invalid inves
  expect(location.search).toContain('as_of=2026-11-05T10');
  location.hash = '#investigation/unknown'; window.dispatchEvent(new HashChangeEvent('hashchange'));
  expect(await screen.findByRole('alert', {}, { timeout: 10000 })).toHaveTextContent('Investigation not found at the selected clock');
-}, 45000);
+}, 60000);
