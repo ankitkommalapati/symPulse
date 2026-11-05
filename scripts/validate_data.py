@@ -19,7 +19,7 @@ def elapsed(start, end):
     return (parse(end) - parse(start)).total_seconds() / 3600
 
 
-def validate(folder):
+def validate(folder, database_path=None):
     manifest = json.loads((folder / "manifest.json").read_text())
     clock = manifest["as_of"]
     tables = {}
@@ -29,7 +29,9 @@ def validate(folder):
             raise AssertionError(description)
         checks.append(description)
 
-    db = sqlite3.connect("file:%s?mode=ro" % (folder / "pulse_demo.sqlite"), uri=True)
+    database_path = (database_path or folder / "pulse_demo.sqlite").resolve()
+    db = sqlite3.connect(database_path.as_uri() + "?mode=ro", uri=True)
+    db.row_factory = sqlite3.Row
     for table, meta in manifest["tables"].items():
         raw = (folder / (table + ".jsonl")).read_bytes()
         check(hashlib.sha256(raw).hexdigest() == meta["sha256"], table + " manifest hash")
@@ -37,6 +39,20 @@ def validate(folder):
         tables[table] = rows
         check(len(rows) == meta["records"], table + " record count")
         check(db.execute('SELECT count(*) FROM "%s"' % table).fetchone()[0] == len(rows), table + " SQLite parity")
+        expected = {(r["record_id"], r["record_version"]): r for r in rows}
+        def same_payload(database_row):
+            key = (database_row["record_id"], database_row["record_version"])
+            source_row = expected.get(key)
+            if source_row is None:
+                return False
+            for column in database_row.keys():
+                value = source_row.get(column)
+                if isinstance(value, (list, dict)):
+                    value = json.dumps(value, sort_keys=True)
+                if database_row[column] != value:
+                    return False
+            return True
+        check(all(same_payload(r) for r in db.execute('SELECT * FROM "%s"' % table)), table + " SQLite source payload parity")
         keys = [(r["record_id"], r["record_version"]) for r in rows]
         check(len(keys) == len(set(keys)), table + " unique record versions")
         check(all(r["synthetic"] is True for r in rows), table + " synthetic marker")
@@ -130,4 +146,6 @@ def validate(folder):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data" / "generated")
-    validate(parser.parse_args().data_dir)
+    parser.add_argument("--database-path", type=Path)
+    args = parser.parse_args()
+    validate(args.data_dir, args.database_path)
