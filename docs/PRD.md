@@ -228,7 +228,7 @@ Proposed application API, explicitly **Pulse APIs**, not symplr APIs:
 | `POST /api/investigations/{id}/explain` | Validated model brief or labeled fallback |
 | `POST /api/investigations/{id}/simulate` | Snapshot hash + interventions → feasibility, costs, gaps |
 | `POST /api/plans` | Save proposal from a valid simulation |
-| `POST /api/plans/{id}/approve` | Record local demo approval; reject stale snapshot |
+| `POST /api/plans/{id}/transition` | Explicit lifecycle change including demo approval; reject stale snapshot/version |
 | `GET /api/evaluation` | Saved fixture results, excluded from model evidence |
 
 ## 10. Data quality, trust and reliability

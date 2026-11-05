@@ -231,7 +231,8 @@ class ApiTests(unittest.TestCase):
     def test_openapi_contains_working_routes_only(self):
         schema = self.client.get("/openapi.json").json()
         self.assertIn("/api/evidence/{record_id}", schema["paths"])
-        self.assertNotIn("/api/plans", schema["paths"])
+        self.assertIn("/api/plans", schema["paths"])
+        self.assertNotIn("/api/external-schedules", schema["paths"])
 
 
 if __name__ == "__main__":

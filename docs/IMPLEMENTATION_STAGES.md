@@ -14,4 +14,4 @@ Each stage is implemented, verified and submitted as a separate pull request. Wo
 
 Stage 1 supplies data access and evidence persistence. It does not expose investigation, simulation or approval endpoints. These appear only when their behavior has been implemented in the authorized stage.
 
-Stages 1–4 are implemented and merged. Stage 5 adds certified evidence briefs, bounded questions, a configurable model adapter and labeled fallback for review. Live-model and visual-browser verification remain outstanding. Stage 6 has not started. See [explanation behavior](EXPLANATIONS.md).
+Stages 1–5 are implemented and merged. Stage 6 adds durable demo plans, approval, owners, follow-up tasks, simulated outcomes and audit history for review. Live-model and visual-browser verification remain outstanding. Stage 7 has not started. See [response workflows](WORKFLOWS.md).

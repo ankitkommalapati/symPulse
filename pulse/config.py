@@ -27,6 +27,7 @@ class Settings:
     hospital_timezone: str
     host: str
     port: int
+    workflow_path: Path
 
     @classmethod
     def load(cls, environ: Optional[Mapping[str, str]] = None, root: Path = ROOT):
@@ -50,8 +51,12 @@ class Settings:
         port = int(setting("PULSE_PORT", "8000"))
         if not 1 <= port <= 65535:
             raise ValueError("PULSE_PORT must be between 1 and 65535")
+        workflow_path = path('PULSE_WORKFLOW_PATH', 'data/workflow/pulse_workflow.sqlite')
+        database_path = path('PULSE_DATABASE_PATH', data_dir / 'pulse_demo.sqlite')
+        if workflow_path == database_path:
+            raise ValueError('Workflow and source databases must have different paths')
         return cls(data_dir=data_dir,
                    database_path=path("PULSE_DATABASE_PATH", data_dir / "pulse_demo.sqlite"),
                    evidence_dir=path("PULSE_EVIDENCE_DIR", "data/evidence"),
                    as_of=as_of, hospital_timezone=hospital_timezone,
-                   host=setting("PULSE_HOST", "127.0.0.1"), port=port)
+                   host=setting("PULSE_HOST", "127.0.0.1"), port=port, workflow_path=workflow_path)

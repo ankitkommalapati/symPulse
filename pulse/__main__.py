@@ -8,6 +8,7 @@ import sys
 from pulse.config import ROOT, Settings
 from pulse.repository import SourceRepository
 from pulse.storage import EvidenceStore
+from pulse.workflows.store import WorkflowStore
 
 
 def prepare(settings):
@@ -32,6 +33,7 @@ def prepare(settings):
 def check(settings):
     SourceRepository(settings.database_path).check()
     EvidenceStore(settings.evidence_dir).check()
+    WorkflowStore(settings.workflow_path).check()
     print(json.dumps({"status": "ready", "as_of": settings.as_of}))
 
 
