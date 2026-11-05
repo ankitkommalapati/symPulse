@@ -23,13 +23,20 @@ it.skipIf(!base)('traces a real ICU measurement to captured evidence and browses
  expect(screen.getByRole('heading', { name: 'What this investigation cannot establish' })).toBeVisible();
  await user.keyboard('{Home}{ArrowRight}');
  expect(screen.getByRole('tab', { name: /Evidence library/ })).toHaveAttribute('aria-selected', 'true');
+ await user.click(screen.getByRole('tab', { name: 'Compare interventions' }));
+ await screen.findByRole('button', { name: 'Calculate this scenario' }, { timeout: 15000 });
+ expect(screen.getByText(/differ by \$2,640/)).toBeVisible();
+ await user.click(screen.getByRole('checkbox', { name: /Assume qualified agency staff/ }));
+ await user.click(screen.getByRole('button', { name: 'Calculate this scenario' }));
+ await screen.findByRole('link', { name: 'Open saved simulation evidence' }, { timeout: 15000 });
+ expect(screen.getByText(/STEPDOWN: 0 uncovered RN-hours/)).toBeVisible();
  await user.click(screen.getByRole('link', { name: /^Data sources$/ }));
  await screen.findByRole('heading', { name: 'The evidence behind Pulse.' });
  await user.click(screen.getByRole('button', { name: /^Employees/ }));
  await user.click((await screen.findAllByRole('button', { name: /Inspect source evidence/ }, { timeout: 10000 }))[0]);
  await screen.findByRole('dialog', { name: 'Source record' });
  expect(screen.getByText('Employee Number')).toBeVisible();
-}, 30000);
+}, 45000);
 it.skipIf(!base)('replays the real earlier snapshot and exposes an invalid investigation gracefully', async () => {
  const originalFetch = globalThis.fetch;
  vi.stubGlobal('fetch', (input: string, init?: RequestInit) => originalFetch(`${base}${input}`, init));
@@ -41,4 +48,4 @@ it.skipIf(!base)('replays the real earlier snapshot and exposes an invalid inves
  expect(location.search).toContain('as_of=2026-11-05T10');
  location.hash = '#investigation/unknown'; window.dispatchEvent(new HashChangeEvent('hashchange'));
  expect(await screen.findByRole('alert', {}, { timeout: 10000 })).toHaveTextContent('Investigation not found at the selected clock');
-}, 30000);
+}, 45000);

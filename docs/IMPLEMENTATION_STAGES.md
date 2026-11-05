@@ -14,4 +14,4 @@ Each stage is implemented, verified and submitted as a separate pull request. Wo
 
 Stage 1 supplies data access and evidence persistence. It does not expose investigation, simulation or approval endpoints. These appear only when their behavior has been implemented in the authorized stage.
 
-Stages 1 and 2 are implemented and merged. Stage 3 is implemented for review; its automated checks pass, with visual browser verification outstanding. Stage 4 has not started. See [workspace verification](WORKSPACE.md#verification).
+Stages 1–3 are implemented and merged. Stage 4 adds constrained staffing comparisons and saved simulation evidence for review. Visual browser verification remains outstanding. Stage 5 has not started. See [simulation specification](SIMULATION.md).

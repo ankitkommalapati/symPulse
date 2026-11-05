@@ -49,4 +49,4 @@ Stage 3 results: 65 Python tests, 10 component tests and 2 live HTTP-to-React te
 
 ## Stage boundary
 
-This stage provides a read-only operational workspace with evidence persistence. Suggested review owners are text from the deterministic engine. Staffing simulations, generated AI explanations and approval/task workflows are implemented in their separately authorized stages.
+This stage provides a read-only operational workspace with evidence persistence. Suggested review owners are text from the deterministic engine. Stage 4 adds the Compare interventions tab; see [staffing simulation](SIMULATION.md). Generated AI explanations and approval/task workflows remain separate stages.

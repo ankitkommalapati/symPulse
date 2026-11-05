@@ -11,6 +11,7 @@ from pulse.config import ROOT, Settings, utc_timestamp
 from pulse.repository import DatasetUnavailable, SourceRepository
 from pulse.storage import EvidenceStore
 from pulse.intelligence.service import IntelligenceService
+from pulse.simulation.service import SimulationRequest, SimulationService
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,7 @@ def create_app(settings: Optional[Settings] = None):
     app.state.repository = repository
     app.state.storage = storage
     app.state.intelligence = intelligence
+    simulations = SimulationService(repository, storage, settings.hospital_timezone)
     web_root = ROOT / "apps" / "web" / "dist"
     if (web_root / "assets").is_dir():
         app.mount("/assets", StaticFiles(directory=str(web_root / "assets")), name="workspace-assets")
@@ -102,6 +104,26 @@ def create_app(settings: Optional[Settings] = None):
             raise HTTPException(status_code=404, detail="Investigation not found at the selected clock")
         return packet
 
+    @app.get("/api/investigations/{investigation_id}/simulation", tags=["simulation"])
+    def simulation_context(investigation_id: str, as_of: Optional[str] = None):
+        try:
+            return simulations.context(investigation_id, clock(as_of))
+        except LookupError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        except OSError as exc:
+            raise HTTPException(status_code=503, detail="Simulation evidence storage is unavailable") from exc
+
+    @app.post("/api/investigations/{investigation_id}/simulate", tags=["simulation"])
+    def simulate(investigation_id: str, request: SimulationRequest, as_of: Optional[str] = None):
+        try:
+            return simulations.simulate(investigation_id, clock(as_of), request)
+        except LookupError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+        except ValueError as exc:
+            raise HTTPException(status_code=409, detail=str(exc)) from exc
+        except OSError as exc:
+            raise HTTPException(status_code=503, detail="Simulation evidence storage is unavailable") from exc
+
     @app.get("/api/units", tags=["sources"])
     def units(as_of: Optional[str] = None):
         selected_clock = clock(as_of)
@@ -144,7 +166,7 @@ def create_app(settings: Optional[Settings] = None):
             raise HTTPException(status_code=422, detail="Evidence artifact is invalid") from exc
         except OSError as exc:
             raise HTTPException(status_code=503, detail="Evidence storage is unavailable") from exc
-        if document.get("kind") not in ("source_evidence", "investigation_evidence"):
+        if document.get("kind") not in ("source_evidence", "investigation_evidence", "simulation_evidence", "simulation_inputs"):
             raise HTTPException(status_code=404, detail="Evidence artifact not found")
         return {"evidence_id": digest, **document}
 
