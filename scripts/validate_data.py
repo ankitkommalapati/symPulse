@@ -138,7 +138,7 @@ def validate(folder, database_path=None):
     check({c["split"] for c in cases} == {"tune", "holdout"}, "Tuning and holdout fixtures tagged")
     result = {"status": "passed", "checks": len(checks), "source_records": sum(map(len, tables.values())),
               "tables": len(tables), "evaluation_fixtures": len(cases),
-              "scope": "Data integrity and hero arithmetic only; detector/model/UI evaluation not implemented"}
+              "scope": "Data integrity and hero arithmetic only; does not evaluate detectors, models or UI"}
     (folder / "validation_report.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
 

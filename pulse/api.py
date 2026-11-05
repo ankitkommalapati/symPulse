@@ -9,6 +9,7 @@ from pulse import __version__
 from pulse.config import Settings, utc_timestamp
 from pulse.repository import DatasetUnavailable, SourceRepository
 from pulse.storage import EvidenceStore
+from pulse.intelligence.service import IntelligenceService
 
 logger = logging.getLogger(__name__)
 
@@ -17,11 +18,13 @@ def create_app(settings: Optional[Settings] = None):
     settings = settings or Settings.load()
     repository = SourceRepository(settings.database_path)
     storage = EvidenceStore(settings.evidence_dir)
+    intelligence = IntelligenceService(repository, storage, settings.hospital_timezone)
     app = FastAPI(title="symplr Pulse", version=__version__,
                   description="Synthetic operational evidence API. All source reads use an explicit availability clock.")
     app.state.settings = settings
     app.state.repository = repository
     app.state.storage = storage
+    app.state.intelligence = intelligence
 
     def clock(value):
         try:
@@ -58,6 +61,28 @@ def create_app(settings: Optional[Settings] = None):
     def sources(as_of: Optional[str] = None):
         selected_clock = clock(as_of)
         return {"as_of": selected_clock, "items": repository.inventory(selected_clock)}
+
+    @app.get("/api/intelligence/units", tags=["intelligence"])
+    def unit_intelligence(as_of: Optional[str] = None):
+        analysis = intelligence.analysis(clock(as_of))
+        return {key: value for key, value in analysis.items() if key != "investigations"}
+
+    @app.get("/api/investigations", tags=["intelligence"])
+    def investigations(as_of: Optional[str] = None):
+        analysis = intelligence.analysis(clock(as_of))
+        return {"as_of": analysis["as_of"], "window": analysis["window"], "input_hash": analysis["input_hash"],
+                "engine_version": analysis["engine_version"], "data_quality": analysis["data_quality"],
+                "items": [r for r in analysis["units"] if r["investigation_id"] is not None]}
+
+    @app.get("/api/investigations/{investigation_id}", tags=["intelligence"])
+    def investigation(investigation_id: str, as_of: Optional[str] = None):
+        try:
+            packet = intelligence.packet(investigation_id, clock(as_of))
+        except OSError as exc:
+            raise HTTPException(status_code=503, detail="Investigation evidence storage is unavailable") from exc
+        if packet is None:
+            raise HTTPException(status_code=404, detail="Investigation not found at the selected clock")
+        return packet
 
     @app.get("/api/units", tags=["sources"])
     def units(as_of: Optional[str] = None):
@@ -101,7 +126,7 @@ def create_app(settings: Optional[Settings] = None):
             raise HTTPException(status_code=422, detail="Evidence artifact is invalid") from exc
         except OSError as exc:
             raise HTTPException(status_code=503, detail="Evidence storage is unavailable") from exc
-        if document.get("kind") != "source_evidence":
+        if document.get("kind") not in ("source_evidence", "investigation_evidence"):
             raise HTTPException(status_code=404, detail="Evidence artifact not found")
         return {"evidence_id": digest, **document}
 

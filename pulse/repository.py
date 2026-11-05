@@ -92,6 +92,15 @@ class SourceRepository:
                 inventory.append({"table": table, "known_records": count, "archive_record_versions": total})
         return inventory
 
+    def snapshot(self, as_of: str):
+        """Read all operational inputs in one consistent transaction, without pagination."""
+        clock = utc_timestamp(as_of)
+        with self.connect() as conn:
+            conn.execute("BEGIN")
+            return {table: [self._decode(row) for row in conn.execute(
+                self._known_sql(table) + " ORDER BY record_id", (clock,)).fetchall()]
+                for table in sorted(TABLES)}
+
     def check(self):
         with self.connect() as conn:
             if conn.execute("PRAGMA quick_check").fetchone()[0] != "ok":
