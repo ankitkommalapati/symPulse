@@ -13,3 +13,5 @@ Each stage is implemented, verified and submitted as a separate pull request. Wo
 | 7 — Verification and demo | Complete-flow checks, evaluation, measured timings, polish and rehearsal | Repeatable end-to-end demonstration and reviewable validation results |
 
 Stage 1 supplies data access and evidence persistence. It does not expose investigation, simulation or approval endpoints. These appear only when their behavior has been implemented in the authorized stage.
+
+Stages 1 and 2 are implemented and merged. Stage 3 is implemented for review; its automated checks pass, with visual browser verification outstanding. Stage 4 has not started. See [workspace verification](WORKSPACE.md#verification).

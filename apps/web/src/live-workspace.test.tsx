@@ -1,0 +1,44 @@
+/** Actual HTTP + React integration. Run via scripts/smoke_workspace.py. */
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { afterEach, expect, it, vi } from 'vitest';
+import App from './App';
+const base = import.meta.env.VITE_PULSE_VERIFY_API;
+afterEach(() => { vi.unstubAllGlobals(); history.replaceState(null, '', '/'); });
+it.skipIf(!base)('traces a real ICU measurement to captured evidence and browses its source', async () => {
+ const originalFetch = globalThis.fetch;
+ vi.stubGlobal('fetch', (input: string, init?: RequestInit) => originalFetch(`${base}${input}`, init));
+ const user = userEvent.setup(); render(<App />);
+ await user.click(await screen.findByRole('link', { name: 'Open investigation' }, { timeout: 10000 }));
+ await screen.findByRole('heading', { name: 'ICU operational readiness' }, { timeout: 10000 });
+ expect(screen.getByText('36')).toBeVisible(); expect(screen.getByText('19')).toBeVisible();
+ await user.click(screen.getByRole('button', { name: /Nursing coverage.*Inspect staffing records/ }));
+ await screen.findByRole('dialog', { name: 'Staffing coverage' });
+ await user.type(screen.getByRole('textbox', { name: 'Search evidence records' }), 'ABS-HERO-0');
+ await user.click(screen.getByRole('button', { name: /ABS-HERO-0.*revision/ }));
+ expect(screen.getByRole('heading', { name: 'Source record' })).toBeVisible();
+ expect(screen.getByText('approved')).toBeVisible();
+ await user.click(screen.getByRole('button', { name: 'Close evidence' }));
+ await user.click(screen.getByRole('tab', { name: 'Limits & uncertainty' }));
+ expect(screen.getByRole('heading', { name: 'What this investigation cannot establish' })).toBeVisible();
+ await user.keyboard('{Home}{ArrowRight}');
+ expect(screen.getByRole('tab', { name: /Evidence library/ })).toHaveAttribute('aria-selected', 'true');
+ await user.click(screen.getByRole('link', { name: /^Data sources$/ }));
+ await screen.findByRole('heading', { name: 'The evidence behind Pulse.' });
+ await user.click(screen.getByRole('button', { name: /^Employees/ }));
+ await user.click((await screen.findAllByRole('button', { name: /Inspect source evidence/ }, { timeout: 10000 }))[0]);
+ await screen.findByRole('dialog', { name: 'Source record' });
+ expect(screen.getByText('Employee Number')).toBeVisible();
+}, 30000);
+it.skipIf(!base)('replays the real earlier snapshot and exposes an invalid investigation gracefully', async () => {
+ const originalFetch = globalThis.fetch;
+ vi.stubGlobal('fetch', (input: string, init?: RequestInit) => originalFetch(`${base}${input}`, init));
+ const user = userEvent.setup(); render(<App />);
+ await screen.findByRole('link', { name: 'Open investigation' }, { timeout: 10000 });
+ await user.click(screen.getByRole('button', { name: /KNOWLEDGE SNAPSHOT/ }));
+ await user.click(await screen.findByRole('button', { name: /Four hours earlier/ }));
+ await waitFor(() => expect(screen.getByRole('button', { name: /KNOWLEDGE SNAPSHOT/ })).toHaveTextContent('4:00 AM'), { timeout: 10000 });
+ expect(location.search).toContain('as_of=2026-11-05T10');
+ location.hash = '#investigation/unknown'; window.dispatchEvent(new HashChangeEvent('hashchange'));
+ expect(await screen.findByRole('alert', {}, { timeout: 10000 })).toHaveTextContent('Investigation not found at the selected clock');
+}, 30000);

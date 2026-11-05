@@ -13,20 +13,23 @@ Operational intelligence prototype for the **Mission: Impact** hackathon, Novemb
 5. [Implementation stages](docs/IMPLEMENTATION_STAGES.md): stage boundaries and review gates.
 6. [Application foundation](docs/FOUNDATION.md): configuration, API and evidence persistence.
 7. [Operational intelligence](docs/INTELLIGENCE.md): detection rules, findings, provenance and investigation API.
+8. [Operational workspace](docs/WORKSPACE.md): application setup, review flow and verification.
 
-## Run the service
+## Run the application
 
-From the project root in a Python 3.9+ environment:
+From the project root with Python 3.9+ and Node.js 22.12+:
 
 ```text
 python -m pip install -r requirements.lock
 python -m pulse prepare
+npm --prefix apps/web ci
+npm --prefix apps/web run build
 python -m pulse serve
 ```
 
-The API listens at `http://127.0.0.1:8000`. Check `/health/ready`, inspect `/api/sources`, or open `/docs` for the API reference. Configuration defaults work without an environment file; `.env.example` lists the supported settings.
+Open the workspace at `http://127.0.0.1:8000`. The same process serves the API. Check `/health/ready`, inspect `/api/sources`, or open `/docs` for the API reference. Configuration defaults work without an environment file; `.env.example` lists the supported settings.
 
-Run the foundation checks with `python -m unittest discover -s tests -v`.
+Run Python checks with `python -m unittest discover -s tests -v`, frontend checks with `npm --prefix apps/web test`, and the live API-to-workspace flow with `python scripts/smoke_workspace.py`. See the [workspace guide](docs/WORKSPACE.md) for verification limits.
 
 ## Runnable synthetic-data starter
 

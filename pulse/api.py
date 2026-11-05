@@ -3,10 +3,11 @@ import logging
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from pulse import __version__
-from pulse.config import Settings, utc_timestamp
+from pulse.config import ROOT, Settings, utc_timestamp
 from pulse.repository import DatasetUnavailable, SourceRepository
 from pulse.storage import EvidenceStore
 from pulse.intelligence.service import IntelligenceService
@@ -25,6 +26,23 @@ def create_app(settings: Optional[Settings] = None):
     app.state.repository = repository
     app.state.storage = storage
     app.state.intelligence = intelligence
+    web_root = ROOT / "apps" / "web" / "dist"
+    if (web_root / "assets").is_dir():
+        app.mount("/assets", StaticFiles(directory=str(web_root / "assets")), name="workspace-assets")
+
+    @app.get("/", include_in_schema=False)
+    def workspace():
+        index = web_root / "index.html"
+        if not index.is_file():
+            raise HTTPException(status_code=503, detail="Workspace is unavailable. Follow the application setup instructions.")
+        return FileResponse(index, headers={"Cache-Control": "no-cache"})
+
+    @app.get("/pulse.svg", include_in_schema=False)
+    def workspace_icon():
+        icon = web_root / "pulse.svg"
+        if not icon.is_file():
+            raise HTTPException(status_code=404, detail="Icon not found")
+        return FileResponse(icon, media_type="image/svg+xml")
 
     def clock(value):
         try:
