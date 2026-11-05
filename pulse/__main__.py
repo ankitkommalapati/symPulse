@@ -4,8 +4,10 @@ import hashlib
 import json
 import subprocess
 import sys
+from dataclasses import replace
+from uuid import uuid4
 
-from pulse.config import ROOT, Settings
+from pulse.config import ROOT, Settings, utc_timestamp
 from pulse.repository import SourceRepository
 from pulse.storage import EvidenceStore
 from pulse.workflows.store import WorkflowStore
@@ -39,10 +41,26 @@ def check(settings):
 
 def main():
     parser = argparse.ArgumentParser(description="symplr Pulse service")
-    parser.add_argument("command", choices=("prepare", "check", "serve"))
+    parser.add_argument("command", choices=("prepare", "check", "serve", "demo"))
+    parser.add_argument("--port", type=int, help="Listener port for serve/demo")
     args = parser.parse_args()
     try:
         settings = Settings.load()
+        if args.port is not None:
+            if not 1 <= args.port <= 65535:
+                raise ValueError('Port must be between 1 and 65535')
+            settings = replace(settings, port=args.port)
+        if args.command == 'demo':
+            if not (ROOT / 'apps/web/dist/index.html').is_file():
+                raise ValueError('Build the workspace with npm --prefix apps/web run build')
+            SourceRepository(settings.database_path).check()
+            session = uuid4().hex
+            folder = ROOT / 'data/demo_sessions' / session
+            settings = replace(settings, workflow_path=folder / 'workflow.sqlite', evidence_dir=folder / 'evidence',
+                               as_of=utc_timestamp('2026-11-05T14:00:00Z'), hospital_timezone='America/Chicago')
+            check(settings)
+            print(json.dumps({'status': 'fresh_demo_session', 'session': session,
+                              'url': 'http://' + settings.host + ':' + str(settings.port)}), flush=True)
         if args.command == "prepare":
             prepare(settings)
         elif args.command == "check":

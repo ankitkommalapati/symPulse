@@ -1,3 +1,5 @@
+For the implemented click-by-click presentation, use [the demo runbook](DEMO_RUNBOOK.md) and [submission material](SUBMISSION.md). This document retains the original two-day execution plan.
+
 # Two-day build and demonstration
 
 Dates: **November 5–6, 2026, India time**. Use relative work blocks if starting later. A single engineer can deliver this only by protecting the hero investigation.
@@ -32,9 +34,9 @@ Checkpoint: a judge can understand the ICU concern and verify every input withou
 docs/                  research, PRD, data contract, demo
 scripts/               generator and data validator (included)
 data/generated/        source-shaped JSONL and pulse_demo.sqlite (included locally)
-apps/web/              Next.js workspace (to build)
-services/pulse/        adapters, metrics, rules, simulation, LLM provider (to build)
-tests/                 detector, eligibility, simulator integration cases (to build)
+apps/web/              React/TypeScript workspace and component checks
+pulse/                 source API, intelligence, simulation, briefs, workflows, offline evaluation
+tests/                 detector, eligibility, evidence and workflow regression cases
 ```
 
 Do not add LangGraph, a vector store or a graph database just to match the original architecture list. A few deterministic functions and a bounded model call support the intended demo.
@@ -49,7 +51,7 @@ Do not add LangGraph, a vector store or a graph database just to match the origi
 
 **1:45–2:45 — Impact moment.** Simulate reassigning two eligible Step-down nurses. Target uncovered hours fall from 36 to 12; Step-down remains at its minimum. Show one apparently available candidate rejected for missing competency. Compare a hypothetical agency-only plan to a hybrid plan, with editable rates and availability assumptions. All dollar figures are modeled, not realized savings.
 
-**2:45–3:20 — Close the loop.** Approve the local demo plan. Four owners receive local task entries; no live notifications are sent. Show that the physician, access and quality-review items remain open. “A staffing plan does not renew a privilege or clear a vendor.”
+**2:45–3:20 — Close the loop.** Approve the local demo plan. Follow-up tasks have explicit owner roles and due times; no live notifications are sent. Show that the physician, access and quality-review items remain open. “A staffing plan does not renew a privilege or clear a vendor.”
 
 **3:20–4:00 — Evidence of impact.** Show actual saved evaluation counts and timings if implemented. Otherwise state what is demonstrated: reproducible gap arithmetic, constraints, linked evidence and a complete decision workflow. End: **“Mission: Impact means less time assembling the problem, and a feasible plan before the next shift.”**
 
@@ -63,7 +65,7 @@ Use **“Each system sees a piece. Pulse assembles the next decision.”** The o
 |---|---|
 | How is this different from current symplr AI? | Demonstrate one temporal cross-product investigation plus constrained intervention; acknowledge existing scheduling and Quality intelligence |
 | Is this actual symplr data? | No. Workflow-informed synthetic contracts; public sources and assumptions documented |
-| What does the LLM decide? | Wording and bounded evidence interpretation; rules own eligibility, counts and costs |
+| What does the LLM decide? | The optional model organizes certified statements; rules own eligibility, counts and costs |
 | Does correlation prove the cause? | No. Show facts, hypotheses, unknowns and quality-review ownership |
 | What if the source data is late? | Show availability time, freshness state and withheld conclusions |
 | What if no nurse can safely move? | Simulation returns infeasible, residual gap and escalation; it does not relax hard constraints |
@@ -83,4 +85,4 @@ Use **“Each system sees a piece. Pulse assembles the next decision.”** The o
 
 ## Submission abstract
 
-symplr Pulse is a proposed cross-product operational readiness application. It connects synthetic Workforce, Provider, Physician Scheduling, Quality and Access signals to explain an ICU's next-72-hour constraints, reveal supporting records and compare feasible staffing interventions. Transparent calculations and rules govern eligibility and cost; an approved language model turns the evidence into a brief. Leaders review an explicit plan and track unresolved work. The demonstration measures operational decision support, with no live product integration or clinical outcome claims.
+symplr Pulse is a proposed cross-product operational readiness application. It connects synthetic Workforce, Provider, Physician Scheduling, Quality and Access signals to explain an ICU's next-72-hour constraints, reveal supporting records and compare feasible staffing interventions. Transparent calculations and rules govern eligibility and cost; a bounded model adapter can organize certified statements, with a labeled rule-based default. Leaders review an explicit plan and track unresolved work. The demonstration measures operational decision support, with no live product integration or clinical outcome claims.

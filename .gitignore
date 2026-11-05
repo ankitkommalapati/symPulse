@@ -11,3 +11,5 @@ node_modules/
 apps/web/dist/
 *.tsbuildinfo
 data/workflow/
+data/verification/
+data/demo_sessions/

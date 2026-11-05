@@ -67,6 +67,10 @@ it.skipIf(!base)('traces a real ICU measurement to captured evidence and browses
  await user.click((await screen.findAllByRole('button', { name: /Inspect source evidence/ }, { timeout: 10000 }))[0]);
  await screen.findByRole('dialog', { name: 'Source record' });
  expect(screen.getByText('Employee Number')).toBeVisible();
+ await user.click(screen.getByRole('button', { name: 'Close evidence' }));
+ await user.click(screen.getByRole('link', { name: 'Demo evidence' }));
+ await screen.findByRole('heading', { name: 'Evidence of the demonstration.' }, { timeout: 10000 });
+ expect(screen.getByText('ACCESS-late_arrival · failed')).toBeVisible();
 }, 60000);
 it.skipIf(!base)('replays the real earlier snapshot and exposes an invalid investigation gracefully', async () => {
  const originalFetch = globalThis.fetch;

@@ -8,6 +8,7 @@ import Overview from './components/Overview';
 import Investigations from './components/Investigations';
 import type { DrawerSelection } from './components/EvidenceDrawer';
 
+const Verification = lazy(() => import('./components/Verification'));
 const Investigation = lazy(() => import('./components/Investigation'));
 const Sources = lazy(() => import('./components/Sources'));
 const EvidenceDrawer = lazy(() => import('./components/EvidenceDrawer'));
@@ -25,13 +26,13 @@ function Workspace({ route, clock, revision, retry, changeClock }: { route: Rout
     <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); document.getElementById('main-content')?.focus(); }}>Skip to workspace</a>
     <aside className="sidebar"><a className="brand" href="#overview" aria-label="symplr Pulse home"><span className="brand-mark"><Activity size={24} /></span><span><strong>symplr<span>pulse</span></strong><small>OPERATIONAL INTELLIGENCE</small></span></a>
       <div className="nav-label">WORKSPACE</div><nav aria-label="Main navigation">{[
-        { id: 'overview', label: 'Overview', icon: LayoutDashboard }, { id: 'investigations', label: 'Investigations', icon: Files }, { id: 'sources', label: 'Data sources', icon: Database },
+        { id: 'overview', label: 'Overview', icon: LayoutDashboard }, { id: 'investigations', label: 'Investigations', icon: Files }, { id: 'sources', label: 'Data sources', icon: Database }, { id: 'verification', label: 'Demo evidence', icon: ShieldCheck },
       ].map(({ id, label, icon: Icon }) => <a key={id} href={`#${id}`} className={activePage === id ? 'active' : ''} aria-current={activePage === id ? 'page' : undefined}><Icon size={18} /><span>{label}</span>{id === 'investigations' && highCount ? <b>{highCount}</b> : null}</a>)}</nav>
       <div className="sidebar-bottom"><div className="sidebar-note"><ShieldCheck size={20} /><strong>Clarity you can trace.</strong><p>Every investigation leads back to its supporting records.</p></div><div className="demo-label"><span />SYNTHETIC DEMONSTRATION</div></div>
     </aside>
     <div className="app-main"><header className="topbar"><div className="hospital"><Building2 size={18} /><span>{bundle?.hospital || 'Hospital operations'}</span></div><div className="header-actions"><button className="snapshot-control" disabled={!bundle} onClick={() => setSnapshotOpen(true)}><Clock3 size={16} /><span><small>KNOWLEDGE SNAPSHOT</small><strong>{bundle ? dateTime(bundle.analysis.as_of, bundle.meta.hospital_timezone, { timeZoneName: 'short' }) : 'Loading snapshot…'}</strong></span><ChevronDown size={13} /></button><button className="icon-button refresh" aria-label="Refresh current snapshot" onClick={retry}><RefreshCw size={17} /></button><span className="avatar" aria-label="Operations reviewer">OP</span></div></header>
       <main id="main-content" className="workspace" tabIndex={-1}>{resource.status === 'loading' ? <Loading /> : resource.status === 'error' ? <ErrorState message={resource.message} retry={retry} /> : <Suspense fallback={<Loading />}>
-        {route.page === 'overview' ? <Overview bundle={resource.data} /> : route.page === 'investigations' ? <Investigations bundle={resource.data} /> : route.page === 'sources' ? <Sources bundle={resource.data} openDrawer={openDrawer} /> : <Investigation key={`${route.id}:${resource.data.analysis.as_of}`} id={route.id} bundle={resource.data} revision={revision} retry={retry} openDrawer={openDrawer} />}
+        {route.page === 'overview' ? <Overview bundle={resource.data} /> : route.page === 'investigations' ? <Investigations bundle={resource.data} /> : route.page === 'verification' ? <Verification clock={resource.data.analysis.as_of} /> : route.page === 'sources' ? <Sources bundle={resource.data} openDrawer={openDrawer} /> : <Investigation key={`${route.id}:${resource.data.analysis.as_of}`} id={route.id} bundle={resource.data} revision={revision} retry={retry} openDrawer={openDrawer} />}
       </Suspense>}</main>
       <footer className="workspace-footer"><span>symplr Pulse · Concept prototype</span><span>Evidence-backed operational decision support</span></footer>
     </div>

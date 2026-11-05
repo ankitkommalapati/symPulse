@@ -1,0 +1,1344 @@
+{
+  "schema_version": 1,
+  "application_version": "0.7.0",
+  "generated_at": "2026-11-05T10:43:16.896883+00:00",
+  "status": "review_ready_with_verification_gaps",
+  "dataset": {
+    "seed": 42,
+    "as_of": "2026-11-05T14:00:00.000000+00:00",
+    "input_hash": "c019e57aaf90b46c6ba5d92223fe61cbd21e152749c571c285c3072fc434c45e",
+    "engine_version": "pulse-intelligence-1.0"
+  },
+  "checks": [
+    {
+      "name": "python_regressions",
+      "status": "passed",
+      "test_count": 128,
+      "elapsed_seconds": 70.797
+    },
+    {
+      "name": "frontend_components",
+      "status": "passed",
+      "test_count": 26,
+      "elapsed_seconds": 1.623
+    },
+    {
+      "name": "production_build",
+      "status": "passed",
+      "test_count": null,
+      "elapsed_seconds": 0.525
+    },
+    {
+      "name": "live_http_react",
+      "status": "passed",
+      "test_count": 2,
+      "elapsed_seconds": 16.014
+    }
+  ],
+  "fixture_evaluation": {
+    "schema_version": 1,
+    "scope": "Thirty synthetic component fixtures with explicit adapters; not a hospital generalization or clinical-outcome study",
+    "configuration_frozen": true,
+    "case_count": 30,
+    "families": [
+      {
+        "family": "access",
+        "split": "tune",
+        "primary_decision": "finding",
+        "cases": 2,
+        "fully_matched": 2,
+        "partially_evaluated": 0,
+        "failed": 0,
+        "primary_scored": 2,
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 1,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "family": "access",
+        "split": "holdout",
+        "primary_decision": "finding",
+        "cases": 4,
+        "fully_matched": 2,
+        "partially_evaluated": 1,
+        "failed": 1,
+        "primary_scored": 4,
+        "true_positive": 1,
+        "false_positive": 1,
+        "false_negative": 0,
+        "true_negative": 2,
+        "precision": 0.5,
+        "recall": 1.0
+      },
+      {
+        "family": "drift",
+        "split": "tune",
+        "primary_decision": "finding",
+        "cases": 2,
+        "fully_matched": 2,
+        "partially_evaluated": 0,
+        "failed": 0,
+        "primary_scored": 2,
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 1,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "family": "drift",
+        "split": "holdout",
+        "primary_decision": "finding",
+        "cases": 4,
+        "fully_matched": 3,
+        "partially_evaluated": 1,
+        "failed": 0,
+        "primary_scored": 4,
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 3,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "family": "provider",
+        "split": "tune",
+        "primary_decision": "finding",
+        "cases": 2,
+        "fully_matched": 2,
+        "partially_evaluated": 0,
+        "failed": 0,
+        "primary_scored": 2,
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 1,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "family": "provider",
+        "split": "holdout",
+        "primary_decision": "finding",
+        "cases": 4,
+        "fully_matched": 4,
+        "partially_evaluated": 0,
+        "failed": 0,
+        "primary_scored": 4,
+        "true_positive": 2,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 2,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "family": "quality",
+        "split": "tune",
+        "primary_decision": "unexplained_rate_review",
+        "cases": 2,
+        "fully_matched": 2,
+        "partially_evaluated": 0,
+        "failed": 0,
+        "primary_scored": 2,
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 1,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "family": "quality",
+        "split": "holdout",
+        "primary_decision": "unexplained_rate_review",
+        "cases": 4,
+        "fully_matched": 3,
+        "partially_evaluated": 1,
+        "failed": 0,
+        "primary_scored": 4,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 4,
+        "precision": null,
+        "recall": null
+      },
+      {
+        "family": "simulation",
+        "split": "tune",
+        "primary_decision": "feasible",
+        "cases": 2,
+        "fully_matched": 2,
+        "partially_evaluated": 0,
+        "failed": 0,
+        "primary_scored": 2,
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 1,
+        "precision": 1.0,
+        "recall": 1.0
+      },
+      {
+        "family": "simulation",
+        "split": "holdout",
+        "primary_decision": "feasible",
+        "cases": 4,
+        "fully_matched": 4,
+        "partially_evaluated": 0,
+        "failed": 0,
+        "primary_scored": 4,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 4,
+        "precision": null,
+        "recall": null
+      }
+    ],
+    "cases": [
+      {
+        "case_id": "DRIFT-sudden_spike",
+        "family": "drift",
+        "split": "tune",
+        "expected": {
+          "finding": true,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": true,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "method": "weekday_adjusted_EWMA",
+          "first_breach_work_date": "2026-11-03"
+        },
+        "error": null
+      },
+      {
+        "case_id": "DRIFT-gradual_drift",
+        "family": "drift",
+        "split": "holdout",
+        "expected": {
+          "finding": true,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": true,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "method": "weekday_adjusted_EWMA",
+          "first_breach_work_date": "2026-10-09"
+        },
+        "error": null
+      },
+      {
+        "case_id": "DRIFT-stable",
+        "family": "drift",
+        "split": "holdout",
+        "expected": {
+          "finding": false,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "method": "weekday_adjusted_EWMA",
+          "first_breach_work_date": null
+        },
+        "error": null
+      },
+      {
+        "case_id": "DRIFT-weekday_seasonality",
+        "family": "drift",
+        "split": "tune",
+        "expected": {
+          "finding": false,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "method": "weekday_adjusted_EWMA",
+          "first_breach_work_date": null
+        },
+        "error": null
+      },
+      {
+        "case_id": "DRIFT-zero_variance",
+        "family": "drift",
+        "split": "holdout",
+        "expected": {
+          "finding": false,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "method": "weekday_adjusted_EWMA",
+          "first_breach_work_date": null
+        },
+        "error": null
+      },
+      {
+        "case_id": "DRIFT-stale_feed",
+        "family": "drift",
+        "split": "holdout",
+        "expected": {
+          "finding": false,
+          "data_issue": true
+        },
+        "observed": {
+          "finding": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {
+          "data_issue": "Live source-delivery freshness is not measured by the archive engine"
+        },
+        "mismatches": {},
+        "status": "partial",
+        "details": {
+          "method": "weekday_adjusted_EWMA",
+          "first_breach_work_date": null
+        },
+        "error": null
+      },
+      {
+        "case_id": "PROVIDER-expires_mid_shift",
+        "family": "provider",
+        "split": "tune",
+        "expected": {
+          "finding": true
+        },
+        "observed": {
+          "finding": true
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "uncovered_physician_hours": 6.0
+        },
+        "error": null
+      },
+      {
+        "case_id": "PROVIDER-pending_valid",
+        "family": "provider",
+        "split": "holdout",
+        "expected": {
+          "finding": false
+        },
+        "observed": {
+          "finding": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "uncovered_physician_hours": 0
+        },
+        "error": null
+      },
+      {
+        "case_id": "PROVIDER-expired_before_shift",
+        "family": "provider",
+        "split": "holdout",
+        "expected": {
+          "finding": true
+        },
+        "observed": {
+          "finding": true
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "uncovered_physician_hours": 12.0
+        },
+        "error": null
+      },
+      {
+        "case_id": "PROVIDER-ends_at_shift_end",
+        "family": "provider",
+        "split": "tune",
+        "expected": {
+          "finding": false
+        },
+        "observed": {
+          "finding": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "uncovered_physician_hours": 0
+        },
+        "error": null
+      },
+      {
+        "case_id": "PROVIDER-wrong_facility",
+        "family": "provider",
+        "split": "holdout",
+        "expected": {
+          "finding": true
+        },
+        "observed": {
+          "finding": true
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "uncovered_physician_hours": 12.0
+        },
+        "error": null
+      },
+      {
+        "case_id": "PROVIDER-renewed_effective",
+        "family": "provider",
+        "split": "holdout",
+        "expected": {
+          "finding": false
+        },
+        "observed": {
+          "finding": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "uncovered_physician_hours": 0
+        },
+        "error": null
+      },
+      {
+        "case_id": "ACCESS-missing_credential",
+        "family": "access",
+        "split": "tune",
+        "expected": {
+          "finding": true,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": true,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "unapproved_requirements": [
+            [
+              "FACILITY_ORIENTATION",
+              "SCREENING"
+            ]
+          ]
+        },
+        "error": null
+      },
+      {
+        "case_id": "ACCESS-pending_review",
+        "family": "access",
+        "split": "holdout",
+        "expected": {
+          "finding": true,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": true,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "unapproved_requirements": [
+            [
+              "FACILITY_ORIENTATION",
+              "SCREENING"
+            ]
+          ]
+        },
+        "error": null
+      },
+      {
+        "case_id": "ACCESS-all_valid",
+        "family": "access",
+        "split": "holdout",
+        "expected": {
+          "finding": false,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "unapproved_requirements": []
+        },
+        "error": null
+      },
+      {
+        "case_id": "ACCESS-wrong_unit",
+        "family": "access",
+        "split": "tune",
+        "expected": {
+          "finding": false,
+          "data_issue": false
+        },
+        "observed": {
+          "finding": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "unapproved_requirements": []
+        },
+        "error": null
+      },
+      {
+        "case_id": "ACCESS-late_arrival",
+        "family": "access",
+        "split": "holdout",
+        "expected": {
+          "finding": false,
+          "data_issue": true
+        },
+        "observed": {
+          "finding": true,
+          "data_issue": false
+        },
+        "unsupported_fields": {
+          "data_issue": "Live source-delivery freshness is not measured by the archive engine; missing approval is not a reliable feed-freshness signal"
+        },
+        "mismatches": {
+          "finding": {
+            "expected": false,
+            "observed": true
+          }
+        },
+        "status": "failed",
+        "details": {
+          "unapproved_requirements": [
+            [
+              "FACILITY_ORIENTATION",
+              "SCREENING"
+            ]
+          ]
+        },
+        "error": null
+      },
+      {
+        "case_id": "ACCESS-stale_status",
+        "family": "access",
+        "split": "holdout",
+        "expected": {
+          "finding": false,
+          "data_issue": true
+        },
+        "observed": {
+          "finding": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {
+          "data_issue": "Live source-delivery freshness is not measured by the archive engine; missing approval is not a reliable feed-freshness signal"
+        },
+        "mismatches": {},
+        "status": "partial",
+        "details": {
+          "unapproved_requirements": []
+        },
+        "error": null
+      },
+      {
+        "case_id": "PLAN-feasible_two",
+        "family": "simulation",
+        "split": "tune",
+        "expected": {
+          "feasible": true
+        },
+        "observed": {
+          "feasible": true
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "feasible",
+          "residual_rn_hours": 12.0,
+          "rejected": []
+        },
+        "error": null
+      },
+      {
+        "case_id": "PLAN-missing_competency",
+        "family": "simulation",
+        "split": "holdout",
+        "expected": {
+          "feasible": false
+        },
+        "observed": {
+          "feasible": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "infeasible",
+          "residual_rn_hours": 36.0,
+          "rejected": [
+            {
+              "employee_id": "SYN-RN-041",
+              "reasons": [
+                "Required license or destination competency does not cover the entire shift"
+              ]
+            }
+          ]
+        },
+        "error": null
+      },
+      {
+        "case_id": "PLAN-joint_donor_shortage",
+        "family": "simulation",
+        "split": "holdout",
+        "expected": {
+          "feasible": false
+        },
+        "observed": {
+          "feasible": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "infeasible",
+          "residual_rn_hours": 36.0,
+          "rejected": [
+            {
+              "employee_id": "SYN-RN-042",
+              "reasons": [
+                "Joint plan does not preserve verified source-department minimum coverage"
+              ]
+            }
+          ]
+        },
+        "error": null
+      },
+      {
+        "case_id": "PLAN-overlap",
+        "family": "simulation",
+        "split": "tune",
+        "expected": {
+          "feasible": false
+        },
+        "observed": {
+          "feasible": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "infeasible",
+          "residual_rn_hours": 36.0,
+          "rejected": [
+            {
+              "employee_id": "SYN-RN-041",
+              "reasons": [
+                "Reassignment requires exactly one matching full source shift"
+              ]
+            }
+          ]
+        },
+        "error": null
+      },
+      {
+        "case_id": "PLAN-insufficient_rest",
+        "family": "simulation",
+        "split": "holdout",
+        "expected": {
+          "feasible": false
+        },
+        "observed": {
+          "feasible": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "infeasible",
+          "residual_rn_hours": 36.0,
+          "rejected": [
+            {
+              "employee_id": "SYN-RN-041",
+              "reasons": [
+                "Minimum rest buffer is not met"
+              ]
+            }
+          ]
+        },
+        "error": null
+      },
+      {
+        "case_id": "PLAN-absence",
+        "family": "simulation",
+        "split": "holdout",
+        "expected": {
+          "feasible": false
+        },
+        "observed": {
+          "feasible": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "infeasible",
+          "residual_rn_hours": 36.0,
+          "rejected": [
+            {
+              "employee_id": "SYN-RN-041",
+              "reasons": [
+                "Approved unavailability overlaps the shift"
+              ]
+            }
+          ]
+        },
+        "error": null
+      },
+      {
+        "case_id": "QUALITY-rate_rise",
+        "family": "quality",
+        "split": "tune",
+        "expected": {
+          "unexplained_rate_review": true,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "observed": {
+          "unexplained_rate_review": true,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "report_rate_review",
+          "rate_ratio": 2.0
+        },
+        "error": null
+      },
+      {
+        "case_id": "QUALITY-stable_rate",
+        "family": "quality",
+        "split": "holdout",
+        "expected": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "observed": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "stable_report_rate",
+          "rate_ratio": 1.0
+        },
+        "error": null
+      },
+      {
+        "case_id": "QUALITY-reporting_campaign",
+        "family": "quality",
+        "split": "holdout",
+        "expected": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "observed": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "reporting_context_changed",
+          "rate_ratio": 2.0
+        },
+        "error": null
+      },
+      {
+        "case_id": "QUALITY-denominator_growth",
+        "family": "quality",
+        "split": "tune",
+        "expected": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "observed": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "stable_report_rate",
+          "rate_ratio": 1.0
+        },
+        "error": null
+      },
+      {
+        "case_id": "QUALITY-missing_denominator",
+        "family": "quality",
+        "split": "holdout",
+        "expected": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": true
+        },
+        "observed": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": true
+        },
+        "unsupported_fields": {},
+        "mismatches": {},
+        "status": "passed",
+        "details": {
+          "status": "insufficient_denominator",
+          "rate_ratio": null
+        },
+        "error": null
+      },
+      {
+        "case_id": "QUALITY-late_reports",
+        "family": "quality",
+        "split": "holdout",
+        "expected": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": true
+        },
+        "observed": {
+          "unexplained_rate_review": false,
+          "causal_claim_permitted": false,
+          "data_issue": false
+        },
+        "unsupported_fields": {
+          "data_issue": "Late report delivery cannot be inferred from an empty known reporting window"
+        },
+        "mismatches": {},
+        "status": "partial",
+        "details": {
+          "status": "insufficient_report_volume",
+          "rate_ratio": 0.0
+        },
+        "error": null
+      }
+    ],
+    "status_counts": {
+      "passed": 26,
+      "partial": 3,
+      "failed": 1,
+      "error": 0
+    }
+  },
+  "known_discrepancies": {
+    "ACCESS-late_arrival": {
+      "mismatches": {
+        "finding": {
+          "expected": false,
+          "observed": true
+        }
+      },
+      "reason": "The fixture expects suppression when approval is unavailable at the selected clock. The operational engine instead reports that required approval is not established for the visit. This needs data-contract/label adjudication; the fixture remains failed, not relabeled or hidden."
+    }
+  },
+  "unexpected_discrepancies": [],
+  "rehearsals": [
+    {
+      "repeat": 1,
+      "status": "passed",
+      "checks": {
+        "rn_gap_36": true,
+        "physician_hours_19": true,
+        "reassignment_residual_12": true,
+        "donor_preserved": true,
+        "modeled_costs_reconcile": true,
+        "hybrid_modeled_gap_zero": true,
+        "unverified_capacity_still_visible": true,
+        "source_still_unresolved": true,
+        "offline_brief_and_cache": true,
+        "restart_restores_audit": true,
+        "simulation_evidence_matches": true
+      },
+      "facts": {
+        "rn_gap": 36.0,
+        "physician_exposure_hours": 19.0,
+        "reassignment_residual_rn_hours": 12.0,
+        "reassignment_employees": [
+          "SYN-RN-041",
+          "SYN-RN-042"
+        ],
+        "hybrid_incremental_cost_usd": 1320.0,
+        "agency_incremental_cost_usd": 3960.0,
+        "hybrid_modeled_residual_rn_hours": 0.0,
+        "hybrid_gap_without_unverified_capacity": 12.0,
+        "donor_gap_rn_hours": 0.0,
+        "source_gap_after_demo_closure": 36.0,
+        "restored_plan_state": "closed",
+        "task_count": 5,
+        "brief_status": "fallback"
+      },
+      "core_facts_hash": "72838d363e6e9499fd3d1b007efb5f8dad227bf830a3681077efcda0d999ddf6",
+      "timings_seconds": {
+        "ready": 0.070893,
+        "analysis_cold": 0.900739,
+        "analysis_cached": 0.000719,
+        "investigation": 0.088953,
+        "simulation_context": 4.885518,
+        "simulate_hybrid": 2.286919,
+        "brief_fallback": 0.013471,
+        "brief_cached": 0.011191,
+        "create_plan": 0.012336,
+        "submit": 0.013472,
+        "approve": 0.018543,
+        "simulate_implementation": 0.012774,
+        "monitor": 0.012249,
+        "reject_unfinished_closure": 0.011734,
+        "complete_staffing-plan": 0.013035,
+        "complete_agency-verification": 0.012893,
+        "complete_review-provider": 0.012726,
+        "complete_review-access": 0.012363,
+        "complete_review-quality": 0.012564,
+        "close": 0.012574,
+        "source_still_unresolved": 0.086972,
+        "saved_simulation": 0.0011
+      },
+      "step_count": 22,
+      "atomic_reason_count": 6,
+      "investigation_count": 2,
+      "input_hash": "c019e57aaf90b46c6ba5d92223fe61cbd21e152749c571c285c3072fc434c45e",
+      "engine_version": "pulse-intelligence-1.0"
+    },
+    {
+      "repeat": 2,
+      "status": "passed",
+      "checks": {
+        "rn_gap_36": true,
+        "physician_hours_19": true,
+        "reassignment_residual_12": true,
+        "donor_preserved": true,
+        "modeled_costs_reconcile": true,
+        "hybrid_modeled_gap_zero": true,
+        "unverified_capacity_still_visible": true,
+        "source_still_unresolved": true,
+        "offline_brief_and_cache": true,
+        "restart_restores_audit": true,
+        "simulation_evidence_matches": true
+      },
+      "facts": {
+        "rn_gap": 36.0,
+        "physician_exposure_hours": 19.0,
+        "reassignment_residual_rn_hours": 12.0,
+        "reassignment_employees": [
+          "SYN-RN-041",
+          "SYN-RN-042"
+        ],
+        "hybrid_incremental_cost_usd": 1320.0,
+        "agency_incremental_cost_usd": 3960.0,
+        "hybrid_modeled_residual_rn_hours": 0.0,
+        "hybrid_gap_without_unverified_capacity": 12.0,
+        "donor_gap_rn_hours": 0.0,
+        "source_gap_after_demo_closure": 36.0,
+        "restored_plan_state": "closed",
+        "task_count": 5,
+        "brief_status": "fallback"
+      },
+      "core_facts_hash": "72838d363e6e9499fd3d1b007efb5f8dad227bf830a3681077efcda0d999ddf6",
+      "timings_seconds": {
+        "ready": 0.012117,
+        "analysis_cold": 0.895752,
+        "analysis_cached": 0.000686,
+        "investigation": 0.088746,
+        "simulation_context": 4.882337,
+        "simulate_hybrid": 2.322102,
+        "brief_fallback": 0.012664,
+        "brief_cached": 0.011188,
+        "create_plan": 0.012448,
+        "submit": 0.012509,
+        "approve": 0.012081,
+        "simulate_implementation": 0.012551,
+        "monitor": 0.012552,
+        "reject_unfinished_closure": 0.011718,
+        "complete_staffing-plan": 0.012843,
+        "complete_agency-verification": 0.012963,
+        "complete_review-provider": 0.012646,
+        "complete_review-access": 0.012713,
+        "complete_review-quality": 0.012558,
+        "close": 0.012796,
+        "source_still_unresolved": 0.088484,
+        "saved_simulation": 0.001115
+      },
+      "step_count": 22,
+      "atomic_reason_count": 6,
+      "investigation_count": 2,
+      "input_hash": "c019e57aaf90b46c6ba5d92223fe61cbd21e152749c571c285c3072fc434c45e",
+      "engine_version": "pulse-intelligence-1.0"
+    },
+    {
+      "repeat": 3,
+      "status": "passed",
+      "checks": {
+        "rn_gap_36": true,
+        "physician_hours_19": true,
+        "reassignment_residual_12": true,
+        "donor_preserved": true,
+        "modeled_costs_reconcile": true,
+        "hybrid_modeled_gap_zero": true,
+        "unverified_capacity_still_visible": true,
+        "source_still_unresolved": true,
+        "offline_brief_and_cache": true,
+        "restart_restores_audit": true,
+        "simulation_evidence_matches": true
+      },
+      "facts": {
+        "rn_gap": 36.0,
+        "physician_exposure_hours": 19.0,
+        "reassignment_residual_rn_hours": 12.0,
+        "reassignment_employees": [
+          "SYN-RN-041",
+          "SYN-RN-042"
+        ],
+        "hybrid_incremental_cost_usd": 1320.0,
+        "agency_incremental_cost_usd": 3960.0,
+        "hybrid_modeled_residual_rn_hours": 0.0,
+        "hybrid_gap_without_unverified_capacity": 12.0,
+        "donor_gap_rn_hours": 0.0,
+        "source_gap_after_demo_closure": 36.0,
+        "restored_plan_state": "closed",
+        "task_count": 5,
+        "brief_status": "fallback"
+      },
+      "core_facts_hash": "72838d363e6e9499fd3d1b007efb5f8dad227bf830a3681077efcda0d999ddf6",
+      "timings_seconds": {
+        "ready": 0.009338,
+        "analysis_cold": 0.906884,
+        "analysis_cached": 0.000692,
+        "investigation": 0.098944,
+        "simulation_context": 4.904481,
+        "simulate_hybrid": 2.327533,
+        "brief_fallback": 0.012703,
+        "brief_cached": 0.011328,
+        "create_plan": 0.012319,
+        "submit": 0.012152,
+        "approve": 0.012219,
+        "simulate_implementation": 0.012141,
+        "monitor": 0.012053,
+        "reject_unfinished_closure": 0.011546,
+        "complete_staffing-plan": 0.012904,
+        "complete_agency-verification": 0.013796,
+        "complete_review-provider": 0.012491,
+        "complete_review-access": 0.012599,
+        "complete_review-quality": 0.012624,
+        "close": 0.012552,
+        "source_still_unresolved": 0.086847,
+        "saved_simulation": 0.001049
+      },
+      "step_count": 22,
+      "atomic_reason_count": 6,
+      "investigation_count": 2,
+      "input_hash": "c019e57aaf90b46c6ba5d92223fe61cbd21e152749c571c285c3072fc434c45e",
+      "engine_version": "pulse-intelligence-1.0"
+    }
+  ],
+  "three_runs_identical_core_facts": true,
+  "timings_seconds": {
+    "ready": {
+      "samples": [
+        0.070893,
+        0.012117,
+        0.009338
+      ],
+      "min": 0.009338,
+      "max": 0.070893,
+      "median": 0.012117
+    },
+    "analysis_cold": {
+      "samples": [
+        0.900739,
+        0.895752,
+        0.906884
+      ],
+      "min": 0.895752,
+      "max": 0.906884,
+      "median": 0.900739
+    },
+    "analysis_cached": {
+      "samples": [
+        0.000719,
+        0.000686,
+        0.000692
+      ],
+      "min": 0.000686,
+      "max": 0.000719,
+      "median": 0.000692
+    },
+    "investigation": {
+      "samples": [
+        0.088953,
+        0.088746,
+        0.098944
+      ],
+      "min": 0.088746,
+      "max": 0.098944,
+      "median": 0.088953
+    },
+    "simulation_context": {
+      "samples": [
+        4.885518,
+        4.882337,
+        4.904481
+      ],
+      "min": 4.882337,
+      "max": 4.904481,
+      "median": 4.885518
+    },
+    "simulate_hybrid": {
+      "samples": [
+        2.286919,
+        2.322102,
+        2.327533
+      ],
+      "min": 2.286919,
+      "max": 2.327533,
+      "median": 2.322102
+    },
+    "brief_fallback": {
+      "samples": [
+        0.013471,
+        0.012664,
+        0.012703
+      ],
+      "min": 0.012664,
+      "max": 0.013471,
+      "median": 0.012703
+    },
+    "brief_cached": {
+      "samples": [
+        0.011191,
+        0.011188,
+        0.011328
+      ],
+      "min": 0.011188,
+      "max": 0.011328,
+      "median": 0.011191
+    },
+    "create_plan": {
+      "samples": [
+        0.012336,
+        0.012448,
+        0.012319
+      ],
+      "min": 0.012319,
+      "max": 0.012448,
+      "median": 0.012336
+    },
+    "submit": {
+      "samples": [
+        0.013472,
+        0.012509,
+        0.012152
+      ],
+      "min": 0.012152,
+      "max": 0.013472,
+      "median": 0.012509
+    },
+    "approve": {
+      "samples": [
+        0.018543,
+        0.012081,
+        0.012219
+      ],
+      "min": 0.012081,
+      "max": 0.018543,
+      "median": 0.012219
+    },
+    "simulate_implementation": {
+      "samples": [
+        0.012774,
+        0.012551,
+        0.012141
+      ],
+      "min": 0.012141,
+      "max": 0.012774,
+      "median": 0.012551
+    },
+    "monitor": {
+      "samples": [
+        0.012249,
+        0.012552,
+        0.012053
+      ],
+      "min": 0.012053,
+      "max": 0.012552,
+      "median": 0.012249
+    },
+    "reject_unfinished_closure": {
+      "samples": [
+        0.011734,
+        0.011718,
+        0.011546
+      ],
+      "min": 0.011546,
+      "max": 0.011734,
+      "median": 0.011718
+    },
+    "complete_staffing-plan": {
+      "samples": [
+        0.013035,
+        0.012843,
+        0.012904
+      ],
+      "min": 0.012843,
+      "max": 0.013035,
+      "median": 0.012904
+    },
+    "complete_agency-verification": {
+      "samples": [
+        0.012893,
+        0.012963,
+        0.013796
+      ],
+      "min": 0.012893,
+      "max": 0.013796,
+      "median": 0.012963
+    },
+    "complete_review-provider": {
+      "samples": [
+        0.012726,
+        0.012646,
+        0.012491
+      ],
+      "min": 0.012491,
+      "max": 0.012726,
+      "median": 0.012646
+    },
+    "complete_review-access": {
+      "samples": [
+        0.012363,
+        0.012713,
+        0.012599
+      ],
+      "min": 0.012363,
+      "max": 0.012713,
+      "median": 0.012599
+    },
+    "complete_review-quality": {
+      "samples": [
+        0.012564,
+        0.012558,
+        0.012624
+      ],
+      "min": 0.012558,
+      "max": 0.012624,
+      "median": 0.012564
+    },
+    "close": {
+      "samples": [
+        0.012574,
+        0.012796,
+        0.012552
+      ],
+      "min": 0.012552,
+      "max": 0.012796,
+      "median": 0.012574
+    },
+    "source_still_unresolved": {
+      "samples": [
+        0.086972,
+        0.088484,
+        0.086847
+      ],
+      "min": 0.086847,
+      "max": 0.088484,
+      "median": 0.086972
+    },
+    "saved_simulation": {
+      "samples": [
+        0.0011,
+        0.001115,
+        0.001049
+      ],
+      "min": 0.001049,
+      "max": 0.001115,
+      "median": 0.0011
+    }
+  },
+  "targets": {
+    "simulation_under_one_second": false,
+    "warm_analysis_under_two_seconds": true,
+    "cached_brief_under_one_second": true
+  },
+  "claim_limits": [
+    "Synthetic component challenges; not production accuracy or clinical validation",
+    "Tune/holdout labels were generated before the engine but were visible during development; not a blind held-out study",
+    "Live source delivery freshness is unmeasured; unsupported fixture fields remain partial",
+    "No real-model inference or visual browser verification was completed",
+    "The simulation holdout has no feasible positive case; its precision/recall are undefined",
+    "API timing samples use an in-process HTTP test client; exclude browser layout, network transit and human investigation time",
+    "Atomic findings grouped by investigation are not a measured alert-noise or precision improvement"
+  ],
+  "release_gates": {
+    "automated_regressions": true,
+    "repeatable_demo_api": true,
+    "no_unexpected_fixture_discrepancies": true,
+    "all_fixture_cases_fully_matched": false,
+    "visual_browser_verified": false,
+    "live_model_verified": false
+  },
+  "total_seconds": 134.53
+}

@@ -17,6 +17,8 @@ Operational intelligence prototype for the **Mission: Impact** hackathon, Novemb
 9. [Staffing simulation](docs/SIMULATION.md): constrained interventions, modeled costs, assumptions and saved evidence.
 10. [Evidence briefs](docs/EXPLANATIONS.md): bounded AI organization, focused questions, provider configuration and labeled fallback.
 11. [Response workflows](docs/WORKFLOWS.md): saved proposals, demo approval, owners, simulated outcomes and audit history.
+12. [Release verification](docs/VERIFICATION.md): recorded fixture outcomes, three API rehearsals, timings and remaining gates.
+13. [Demo runbook](docs/DEMO_RUNBOOK.md) and [submission](docs/SUBMISSION.md): presentation steps and defensible claims.
 
 ## Run the application
 
@@ -33,6 +35,8 @@ python -m pulse serve
 Open the workspace at `http://127.0.0.1:8000`. The same process serves the API. Check `/health/ready`, inspect `/api/sources`, or open `/docs` for the API reference. Configuration defaults work without an environment file; `.env.example` lists the supported settings.
 
 Run Python checks with `python -m unittest discover -s tests -v`, frontend checks with `npm --prefix apps/web test`, and the live API-to-workspace flow with `python scripts/smoke_workspace.py`. See the [workspace guide](docs/WORKSPACE.md) for verification limits.
+
+For an isolated presentation session, run `python -m pulse demo --port 8800`. For the complete verification report, run `python scripts/verify_release.py`. The demo command preserves normal saved plans.
 
 ## Runnable synthetic-data starter
 

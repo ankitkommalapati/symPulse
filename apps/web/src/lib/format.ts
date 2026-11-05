@@ -30,5 +30,5 @@ export function readRoute(): import('../types').Route {
     try { return { page: 'investigation', id: decodeURIComponent(hash.slice(14)) }; }
     catch { return { page: 'investigations' }; }
   }
-  return { page: hash === 'investigations' || hash === 'sources' ? hash : 'overview' };
+  return { page: hash === 'investigations' || hash === 'sources' || hash === 'verification' ? hash : 'overview' };
 }

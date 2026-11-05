@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "discrepancies": {
+    "ACCESS-late_arrival": {
+      "mismatches": {"finding": {"expected": false, "observed": true}},
+      "reason": "The fixture expects suppression when approval is unavailable at the selected clock. The operational engine instead reports that required approval is not established for the visit. This needs data-contract/label adjudication; the fixture remains failed, not relabeled or hidden."
+    }
+  }
+}
