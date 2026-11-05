@@ -164,20 +164,22 @@ Deduplication key: facility + unit + investigation family + intersecting action 
 
 ### 7.4 LLM contract
 
-The deterministic engine supplies a bounded packet: facts, computed metrics, evidence IDs, join paths, permitted actions, model-calculated simulation outputs, uncertainty and data freshness. Model returns structured JSON:
+The deterministic engine supplies a bounded packet: facts, computed metrics, evidence IDs, join paths, permitted actions, model-calculated simulation outputs, uncertainty and data freshness. The implemented model contract selects and orders certified statements instead of generating unrestricted prose:
 
 ```json
 {
-  "summary": "...",
-  "observations": [{"text": "...", "evidence_ids": ["..."]}],
-  "hypotheses": [{"text": "...", "evidence_ids": ["..."], "limitations": "..."}],
-  "unknowns": ["..."],
-  "recommended_action_ids": ["..."],
-  "remaining_risks": ["..."]
+  "summary_id": "review",
+  "observation_ids": ["staffing-hours"],
+  "hypothesis_ids": [],
+  "unknown_ids": ["operational-only", "completeness"],
+  "recommended_action_ids": ["review-staffing"],
+  "remaining_risk_ids": ["separate-reviews"]
 }
 ```
 
-The application validates schema, IDs and action membership; authoritative numeric chips come directly from the engine. Reject invented references and unsupported numbers. Source narratives are untrusted data and cannot modify system instructions or tool permissions. Preserve model/version, prompt version, packet hash, generated time, validation outcome and fallback status. Cache by packet hash. Timeout after a configurable 10 seconds, retry once at most, then use a deterministic brief with a visible fallback label.
+IDs are validated against the question-specific catalog, including all mandatory findings and caveats; the abbreviated example illustrates shape, not a valid complete response for every investigation. The server renders certified text and evidence links. Unsupported IDs, extra prose, invented action membership and omitted mandatory limits are rejected. Source narratives are excluded from the provider catalog and cannot modify instructions or tool permissions.
+
+Preserve model/version, prompt version, packet hash, generation time, validation outcome and fallback status. Cache by snapshot and contract identity. Each model attempt defaults to a total 10-second bound with one transient retry at most, then a visibly labeled deterministic brief. See [implemented explanation contract](EXPLANATIONS.md) for configuration, retry behavior and verification limits.
 
 AWS Bedrock is consistent with symplr's public AI positioning; actual model access and company approval are unverified. Use whichever approved endpoint the user already has. Keep a provider interface; model provisioning must not block the rest of the application. [symplr AI](https://www.symplr.com/platform/ai-in-healthcare)
 

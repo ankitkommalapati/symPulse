@@ -15,6 +15,7 @@ Operational intelligence prototype for the **Mission: Impact** hackathon, Novemb
 7. [Operational intelligence](docs/INTELLIGENCE.md): detection rules, findings, provenance and investigation API.
 8. [Operational workspace](docs/WORKSPACE.md): application setup, review flow and verification.
 9. [Staffing simulation](docs/SIMULATION.md): constrained interventions, modeled costs, assumptions and saved evidence.
+10. [Evidence briefs](docs/EXPLANATIONS.md): bounded AI organization, focused questions, provider configuration and labeled fallback.
 
 ## Run the application
 
