@@ -23,6 +23,11 @@ it.skipIf(!base)('traces a real ICU measurement to captured evidence and browses
  expect(screen.getByRole('heading', { name: 'What this investigation cannot establish' })).toBeVisible();
  await user.keyboard('{Home}{ArrowRight}');
  expect(screen.getByRole('tab', { name: /Evidence library/ })).toHaveAttribute('aria-selected', 'true');
+ await user.click(screen.getByRole('tab', { name: 'Evidence brief' }));
+ await screen.findByRole('link', { name: 'Open saved explanation evidence' }, { timeout: 15000 });
+ expect(screen.getByText(/Rule-based evidence brief/)).toBeVisible();
+ await user.click(screen.getByRole('button', { name: 'What can we not conclude?' }));
+ await screen.findByRole('heading', { name: 'What can we not conclude?' }, { timeout: 10000 });
  await user.click(screen.getByRole('tab', { name: 'Compare interventions' }));
  await screen.findByRole('button', { name: 'Calculate this scenario' }, { timeout: 15000 });
  expect(screen.getByText(/differ by \$2,640/)).toBeVisible();

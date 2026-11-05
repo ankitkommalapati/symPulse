@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ArrowRight, Check, FlaskConical, Info, Users } from 'lucide-react';
 import type { Packet, Resource } from '../types';
 import { fetchJson, withClock } from '../lib/api';
 import { dateTime, number } from '../lib/format';
 import { ErrorState, Loading } from './Common';
 
+const Brief = lazy(() => import('./Brief'));
 type Kind = 'reassignment' | 'overtime' | 'agency' | 'hybrid';
 interface Candidate { employee_id: string; eligible: boolean; reasons: string[]; source_unit_id: string | null }
 interface Plan {
@@ -96,6 +97,7 @@ export default function Simulation({ packet, zone }: { packet: Packet; zone: str
    {result && !dirty ? <p className="simulation-evidence"><a className="text-link" href={result.artifact_url} target="_blank" rel="noreferrer">Open saved simulation evidence<ArrowRight size={14} /></a><br /><a className="text-link" href={`/api/artifacts/${result.input_snapshot_id}`} target="_blank" rel="noreferrer">Inspect captured simulation inputs<ArrowRight size={14} /></a></p> : null}
    <div className="formula-panel"><strong>What remains unresolved</strong><p>Physician authorization, vendor access and quality review still require their own follow-up. A staffing proposal does not close the investigation.</p></div>
   </section></div>
+  {result && !dirty ? <Suspense fallback={<Loading />}><Brief key={result.simulation_id} packet={packet} simulationId={result.simulation_id} /></Suspense> : null}
   {data.modeled_agency_cost_difference_usd !== null ? <p className="principle-note">At the default assumptions, agency-only and hybrid plans differ by {usd(data.modeled_agency_cost_difference_usd)} in modeled incremental cost. This comparison assumes the proposed capacity materializes.</p> : null}
  </div>;
 }

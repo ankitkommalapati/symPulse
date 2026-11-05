@@ -6,6 +6,7 @@ import { dateTime, day, groupNames, number, readable, unitNames } from '../lib/f
 import { Badge, ErrorState, EvidenceButton, Loading } from './Common';
 import type { DrawerSelection } from './EvidenceDrawer';
 import TrendChart from './TrendChart';
+const Brief = lazy(() => import('./Brief'));
 const Simulation = lazy(() => import('./Simulation'));
 
 function Timeline({ packet, zone, open }: { packet: Packet; zone: string; open: (group: string, record?: string) => void }) {
@@ -52,7 +53,7 @@ function InvestigationBody({ packet, bundle, openDrawer }: { packet: Packet; bun
       <button onClick={() => open('access_readiness')}><span className="metric-icon purple"><CalendarClock size={19} /></span><span>Vendor readiness</span><strong>{access.findings.length}<em>visits</em></strong><small>{access.findings.length ? 'With incomplete credential approval' : access.data_issues.length ? 'Visit requirements need verification' : 'No visit-readiness concern found'}</small><span className="metric-evidence">Inspect access requirements<ArrowUpRight size={13} /></span></button>
       <button onClick={() => open('quality_reports')}><span className="metric-icon amber"><Activity size={19} /></span><span>Near-miss reporting</span><strong>{quality.current_rate_per_1000 === null ? '—' : number(quality.current_rate_per_1000, 1)}<em>per 1,000</em></strong><small>{quality.baseline_rate_per_1000 === null ? 'Patient-day denominator unavailable' : `vs ${number(quality.baseline_rate_per_1000, 1)} in the prior window · patient-days`}</small><span className="metric-evidence">Inspect reporting context<ArrowUpRight size={13} /></span></button>
     </section>
-    <div className="workspace-tabs" role="tablist" aria-label="Investigation sections">{[['findings', 'Findings & context'], ['evidence', 'Evidence library'], ['uncertainty', 'Limits & uncertainty'], ['simulation', 'Compare interventions']].map(([value, label], index, tabs) => <button key={value} role="tab" tabIndex={tab === value ? 0 : -1} aria-selected={tab === value} aria-controls={`panel-${value}`} id={`tab-${value}`} onClick={() => setTab(value)} onKeyDown={event => {
+    <div className="workspace-tabs" role="tablist" aria-label="Investigation sections">{[['findings', 'Findings & context'], ['evidence', 'Evidence library'], ['uncertainty', 'Limits & uncertainty'], ['simulation', 'Compare interventions'], ['brief', 'Evidence brief']].map(([value, label], index, tabs) => <button key={value} role="tab" tabIndex={tab === value ? 0 : -1} aria-selected={tab === value} aria-controls={`panel-${value}`} id={`tab-${value}`} onClick={() => setTab(value)} onKeyDown={event => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
@@ -60,7 +61,7 @@ function InvestigationBody({ packet, bundle, openDrawer }: { packet: Packet; bun
       document.getElementById(`tab-${tabs[next][0]}`)?.focus();
     }}>{label}{value === 'evidence' ? <span>{Object.keys(packet.source_records).length}</span> : null}</button>)}</div>
     <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
-      {tab === 'simulation' ? <Suspense fallback={<Loading label="Loading staffing comparisons…" />}><Simulation packet={packet} zone={zone} /></Suspense> : tab === 'findings' ? <>
+      {tab === 'brief' ? <Suspense fallback={<Loading />}><Brief packet={packet} openEvidence={open} /></Suspense> : tab === 'simulation' ? <Suspense fallback={<Loading label="Loading staffing comparisons…" />}><Simulation packet={packet} zone={zone} /></Suspense> : tab === 'findings' ? <>
         <Timeline packet={packet} zone={zone} open={open} />
         <div className="investigation-columns"><div className="main-column">
           <section className="panel"><div className="panel-heading"><div><span className="eyebrow">BEHAVIORAL DRIFT</span><h2>A gradual change, made visible.</h2><p>Overtime share against a fixed, weekday-adjusted baseline.</p></div><div className="segmented compact" aria-label="Choose shift">{['DAY', 'NIGHT'].map(value => <button key={value} className={shift === value ? 'selected' : ''} aria-pressed={shift === value} onClick={() => setShift(value)}>{value === 'DAY' ? 'Day shift' : 'Night shift'}</button>)}</div></div>

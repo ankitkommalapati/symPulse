@@ -15,7 +15,7 @@ const context = { snapshot_id: digest, target_shift: { shift_start: '2026-11-06T
  plans: ['reassignment', 'overtime', 'agency', 'hybrid'].map(kind => ({ ...plan, kind })),
  candidates: { reassignment: [{ employee_id: 'SYN-RN-041', eligible: true, reasons: [], source_unit_id: 'STEPDOWN' }, { employee_id: 'SYN-RN-043', eligible: false, reasons: ['ICU competency missing'], source_unit_id: 'STEPDOWN' }], overtime: [] }, modeled_agency_cost_difference_usd: 2640 };
 function mock(data = context) {
- const fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify(data)));
+ const fetch = vi.fn().mockImplementation((url: string) => Promise.resolve(new Response(JSON.stringify(url.includes('/explain') ? { status: 'fallback', fallback_reason: 'not_configured', question_text: 'What would this proposal change?', summary: { text: 'Verified proposal', evidence_group_ids: [] }, observations: [], hypotheses: [], unknowns: [], recommended_actions: [], remaining_risks: [], returned_model: null, prompt_version: 'test', artifact_url: '/api/artifacts/brief', generated_at: '2026-11-05', cache_hit: false } : data))));
  vi.stubGlobal('fetch', fetch); return fetch;
 }
 afterEach(() => vi.unstubAllGlobals());
