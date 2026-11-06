@@ -73,3 +73,12 @@ it('interprets custom UTC input independently of viewer timezone', () => {
  fireEvent.change(screen.getByLabelText('Custom knowledge time (UTC)'), { target: { value: '2026-11-04T18:30' } });
  fireEvent.submit(screen.getByRole('button', { name: 'Review this snapshot' }).closest('form')!); expect(change).toHaveBeenCalledWith('2026-11-04T18:30:00.000Z');
 });
+
+it('supplies explanations for all summary metrics, focus and each department', async () => {
+ const user = userEvent.setup(); render(<Overview bundle={bundle} />);
+ for (const label of ['High-priority investigations', 'Uncovered nursing hours', 'Physician authorization gaps', 'Vendor visits not ready', 'Priority in focus', 'Intensive Care Unit']) {
+  await user.click(screen.getByRole('button', { name: `About ${label}` }));
+  expect(screen.getByRole('tooltip')).toBeVisible();
+  await user.keyboard('{Escape}');
+ }
+});
