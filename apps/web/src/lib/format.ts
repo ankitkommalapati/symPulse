@@ -32,3 +32,8 @@ export function readRoute(): import('../types').Route {
   }
   return { page: hash === 'investigations' || hash === 'sources' || hash === 'verification' ? hash : 'overview' };
 }
+
+/** Presentation name for the original synthetic archive; captured source names remain unchanged. */
+export function hospitalName(name: string) {
+  return name === "St. Mary's Demo Medical Center" ? "St. Mary's Medical Center" : name;
+}

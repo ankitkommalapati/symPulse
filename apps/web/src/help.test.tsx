@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it } from 'vitest';
 import InfoTip from './components/InfoTip';
@@ -38,18 +38,19 @@ it('toggles click help and closes it when focus moves away', async () => {
   await user.tab(); expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 });
 const unit: UnitSummary = { unit_id: 'ED', display_name: 'Emergency Department', facility_id: 'FAC-01', investigation_id: null, priority: 'none', reason_codes: [], coverage_status: 'covered', uncovered_rn_hours: 0, provider_exposure_hours: 0, vendor_visits_not_ready: 0, overtime_drift: false, quality_report_review: false, data_issues: [], status: 'no_current_finding' };
-it('explains a no-finding department without presenting an all-clear', async () => {
+it('describes the department without investigation or assessment details', async () => {
   const user = userEvent.setup(); render(<DepartmentCard unit={unit} />);
   expect(screen.getByText('No issues detected by current checks')).toBeVisible();
   await user.click(screen.getByRole('button', { name: 'About Emergency Department' }));
-  expect(screen.getByRole('tooltip')).toHaveTextContent('does not guarantee the department is problem-free');
-  expect(screen.getByRole('tooltip')).toHaveTextContent('selected snapshot');
+  expect(screen.getByRole('tooltip')).toHaveTextContent('The Emergency Department assesses urgent, unscheduled care needs.');
+  expect(screen.getByRole('tooltip')).not.toHaveTextContent(/snapshot|investigation|checks|72 hours/);
   expect(screen.queryByRole('link')).not.toBeInTheDocument();
 });
 it('keeps missing-data uncertainty separate from a no-finding department', async () => {
   const user = userEvent.setup(); render(<DepartmentCard unit={{ ...unit, status: 'insufficient_data', priority: 'review_required' }} />);
   expect(screen.getByText('Assessment needs more data')).toBeVisible();
   await user.click(screen.getByRole('button', { name: 'About Emergency Department' }));
-  expect(within(screen.getByRole('tooltip')).getByText(/Some records or eligibility checks are incomplete/)).toBeVisible();
+  expect(screen.getByRole('tooltip')).toHaveTextContent('The Emergency Department assesses urgent, unscheduled care needs.');
+  expect(screen.getByRole('tooltip')).not.toHaveTextContent(/incomplete|review|snapshot/);
   expect(screen.queryByText('No issues detected by current checks')).not.toBeInTheDocument();
 });

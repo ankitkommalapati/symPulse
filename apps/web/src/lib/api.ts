@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { hospitalName } from './format';
 import type { Analysis, Bundle, Meta, Packet, Resource, SourceInventory, SourceRecord } from '../types';
 
 export async function fetchJson<T>(url: string, signal?: AbortSignal): Promise<T> {
@@ -25,7 +26,7 @@ export function useBundle(clock: string, revision: number): Resource<Bundle> {
       fetchJson<{ items: (SourceRecord & { name: string })[] }>(withClock('/api/records/facilities', clock), controller.signal),
     ]).then(([meta, analysis, sources, facilities]) => {
       if (!controller.signal.aborted) setState({ status: 'ready', data: { meta, analysis, sources: sources.items,
-        hospital: facilities.items[0]?.name || 'Hospital operations' } });
+        hospital: hospitalName(facilities.items[0]?.name || 'Hospital operations') } });
     }).catch(error => { if (!controller.signal.aborted) setState({ status: 'error', message: String(error.message || error) }); });
     return () => controller.abort();
   }, [clock, revision]);

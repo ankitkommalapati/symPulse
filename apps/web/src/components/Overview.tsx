@@ -13,15 +13,10 @@ export function DepartmentCard({ unit }: { unit: UnitSummary }) {
     MEDSURG: 'Medical / Surgical provides general inpatient care for medical conditions and recovery after surgery.',
     SURGERY: 'Surgery coordinates operating-room care and the staff and services needed for scheduled procedures.',
     REHAB: 'Rehabilitation supports recovery of function and independence after illness or injury.',
-  } as Record<string, string>)[unit.unit_id] || 'This card summarizes the department’s recorded operational signals.';
-  const status = unit.status === 'insufficient_data'
-    ? 'Some records or eligibility checks are incomplete, so this department needs a data review.'
-    : unit.investigation_id
-      ? `${unit.reason_codes.length} operational findings or review signals are grouped for this department. Open the investigation for the evidence and limits.`
-      : 'No issues were detected by the current staffing, overtime, physician authorization, vendor-access and quality-reporting checks. This does not guarantee the department is problem-free.';
+  } as Record<string, string>)[unit.unit_id] || 'A hospital department providing care and related services.';
   return <article className={`department-card ${unit.priority === 'high' ? 'department-alert' : ''}`}>
     <div className="department-top"><span className="unit-symbol"><Building2 size={18} /></span><Badge priority={unit.priority} /></div>
-    <div className="department-title"><h3>{label}</h3><InfoTip label={label}>{`${description} ${status} Results use only the records known at the selected snapshot. Upcoming staffing, authorization and visits are checked over 72 hours; overtime and reporting use historical comparison windows.`}</InfoTip></div><p className="department-description">{unit.unit_id === 'ICU' ? 'Critical care' : 'Hospital operations'}</p>
+    <div className="department-title"><h3>{label}</h3><InfoTip label={label}>{description}</InfoTip></div><p className="department-description">{unit.unit_id === 'ICU' ? 'Critical care' : 'Hospital operations'}</p>
     <div className="department-domains" aria-label="Detected concerns by domain">
       {[['Workforce', unit.uncovered_rn_hours > 0 || unit.overtime_drift], ['Provider', unit.provider_exposure_hours > 0],
         ['Quality', unit.quality_report_review], ['Access', unit.vendor_visits_not_ready > 0]].map(([name, active]) =>
