@@ -656,11 +656,11 @@ select:focus-visible,textarea:focus-visible{outline:3px solid var(--focus);outli
 }
 @media(prefers-reduced-motion:no-preference){.sidebar{transition:width .16s ease}}
 
-/* A soft purple edge blends the navigation into either page theme in both states. */
+/* An inset black fade softens the navigation edge without covering the page. */
 @media(min-width:641px){
- .sidebar::after{content:"";position:absolute;inset:0 auto 0 100%;width:24px;background:linear-gradient(90deg,var(--brand) 0%,#6100dc99 36%,#6100dc33 72%,#6100dc00 100%);pointer-events:none}
+ .sidebar::after{content:"";position:absolute;inset:0 0 0 auto;width:24px;background:linear-gradient(90deg,#00000000 0%,#0000000f 35%,#00000038 72%,#00000070 100%);pointer-events:none}
 }
 @media(max-width:640px){
  .app-shell .sidebar{position:relative}
- .sidebar::after{content:"";position:absolute;inset:100% 0 auto;height:12px;background:linear-gradient(180deg,var(--brand),#6100dc66 45%,#6100dc00);pointer-events:none}
+ .sidebar::after{content:"";position:absolute;inset:auto 0 0;height:12px;background:linear-gradient(180deg,#00000000,#00000022 50%,#00000070);pointer-events:none}
 }

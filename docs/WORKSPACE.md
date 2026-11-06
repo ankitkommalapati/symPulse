@@ -26,7 +26,7 @@ The sun/moon button in the header switches between light and dark mode. The sele
 
 Brand backgrounds use `#6100DC` with purple-tinted supporting surfaces. The unspaced `symPulse` wordmark keeps its green `Pulse` text in both themes. Cards, charts, forms and evidence dialogs share theme tokens; amber and blue continue to distinguish operational statuses.
 
-The sidebar starts as a compact icon rail. A mouse hover or keyboard focus expands it over the workspace, keeping the page in place; leaving the sidebar closes it unless keyboard focus remains inside. A soft purple gradient blends the sidebar edge into the current page theme in both expanded and collapsed states. The decorative fade does not intercept pointer input. Touch devices have an Open/Close navigation control. Navigation keeps accessible names and hover labels. The wordmark is aligned beside its icon without a subtitle.
+The sidebar starts as a compact icon rail. A mouse hover or keyboard focus expands it over the workspace, keeping the page in place; leaving the sidebar closes it unless keyboard focus remains inside. A soft black gradient fades inward from the sidebar’s right edge in both expanded and collapsed states, staying inside its bounds. On narrow layouts the inset fade follows the bottom edge. The decorative fade does not intercept pointer input. Touch devices have an Open/Close navigation control. Navigation keeps accessible names and hover labels. The wordmark is aligned beside its icon without a subtitle.
 
 The hospital header displays St. Mary's Medical Center. The original synthetic source archive and saved evidence retain their captured names.
 
