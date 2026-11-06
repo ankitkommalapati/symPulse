@@ -12,6 +12,11 @@ it.skipIf(!base)('traces a real ICU measurement to captured evidence and browses
  await user.click(screen.getByRole('button', { name: 'Switch to dark mode' }));
  expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
  expect(screen.getByRole('link', { name: 'symPulse home' })).toHaveTextContent('symPulse');
+ await user.click(screen.getByRole('button', { name: 'Collapse sidebar' }));
+ expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeVisible();
+ await user.click(await screen.findByRole('button', { name: 'About Uncovered nursing hours' }, { timeout: 10000 }));
+ expect(screen.getByRole('tooltip')).toHaveTextContent('36 RN-hours');
+ await user.keyboard('{Escape}');
  await user.click(await screen.findByRole('link', { name: 'Open investigation' }, { timeout: 10000 }));
  await screen.findByRole('heading', { name: 'ICU operational readiness' }, { timeout: 10000 });
  expect(screen.getByText('36')).toBeVisible(); expect(screen.getByText('19')).toBeVisible();

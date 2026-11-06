@@ -26,6 +26,10 @@ The sun/moon button in the header switches between light and dark mode. The sele
 
 Brand backgrounds use `#6100DC` with purple-tinted supporting surfaces. The unspaced `symPulse` wordmark keeps its green `Pulse` text in both themes. Cards, charts, forms and evidence dialogs share theme tokens; amber and blue continue to distinguish operational statuses.
 
+The sidebar collapse button switches to a compact icon rail and saves the choice in browser storage. Navigation keeps accessible names and hover labels; the wordmark is aligned beside the icon without a subtitle. On narrow screens the collapsed navigation uses a compact row.
+
+Overview metrics, Priority in Focus and every department have an information button. Hover or focus for temporary help, or click to keep it open. Escape, a second click or an outside interaction dismisses it. Department explanations distinguish current findings, missing data and checks with no finding. “No issues detected by current checks” is limited to the selected records and prototype checks; it does not certify that a department is problem-free.
+
 ## Review flow
 
 1. **Overview:** six department summaries, actual hour/visit measurements, one high-priority ICU investigation and one informational Step-down reporting review at the default clock. No invented health score or clinical risk probability.
