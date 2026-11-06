@@ -648,10 +648,19 @@ select:focus-visible,textarea:focus-visible{outline:3px solid var(--focus);outli
 /* Hover/focus reveals the rail over the page without moving the workspace. */
 @media(min-width:641px){
  .app-shell .app-main{margin-left:76px}
- .app-shell .sidebar{width:228px;box-shadow:8px 0 24px var(--shadow)}
+ .app-shell .sidebar{width:228px;box-shadow:none}
  .app-shell.sidebar-collapsed .sidebar{width:76px;box-shadow:none}
  .app-shell .sidebar-header{flex-direction:row;justify-content:flex-start}
  .app-shell .sidebar-header .brand strong{font-size:23px}
  .app-shell.sidebar-collapsed .sidebar-header{flex-direction:column}
 }
 @media(prefers-reduced-motion:no-preference){.sidebar{transition:width .16s ease}}
+
+/* A soft purple edge blends the navigation into either page theme in both states. */
+@media(min-width:641px){
+ .sidebar::after{content:"";position:absolute;inset:0 auto 0 100%;width:24px;background:linear-gradient(90deg,var(--brand) 0%,#6100dc99 36%,#6100dc33 72%,#6100dc00 100%);pointer-events:none}
+}
+@media(max-width:640px){
+ .app-shell .sidebar{position:relative}
+ .sidebar::after{content:"";position:absolute;inset:100% 0 auto;height:12px;background:linear-gradient(180deg,var(--brand),#6100dc66 45%,#6100dc00);pointer-events:none}
+}
