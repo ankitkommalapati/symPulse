@@ -1,4 +1,4 @@
-# symplr Pulse — product requirements
+# symPulse — product requirements
 
 Version 1.0 • November 5, 2026 • Owner: Ankit Kommalapati • Theme: **Mission: Impact**
 

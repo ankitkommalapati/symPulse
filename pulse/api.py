@@ -28,7 +28,7 @@ def create_app(settings: Optional[Settings] = None):
     repository = SourceRepository(settings.database_path)
     storage = EvidenceStore(settings.evidence_dir)
     intelligence = IntelligenceService(repository, storage, settings.hospital_timezone)
-    app = FastAPI(title="symplr Pulse", version=__version__,
+    app = FastAPI(title="symPulse", version=__version__,
                   description="Synthetic operational evidence API. All source reads use an explicit availability clock.")
     app.state.settings = settings
     app.state.repository = repository
@@ -91,7 +91,7 @@ def create_app(settings: Optional[Settings] = None):
 
     @app.get("/api/meta", tags=["configuration"])
     def meta():
-        return {"application": "symplr Pulse", "version": __version__, "synthetic": True,
+        return {"application": "symPulse", "version": __version__, "synthetic": True,
                 "as_of": settings.as_of, "hospital_timezone": settings.hospital_timezone,
                 "source_access": "read_only", "clock_semantics": "available_at_then_latest_version"}
 

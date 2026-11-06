@@ -10,7 +10,7 @@ import EvidenceDrawer from './components/EvidenceDrawer';
 import SnapshotDialog from './components/SnapshotDialog';
 const clock = '2026-11-05T14:00:00Z';
 const bundle: Bundle = {
- meta: { application: 'symplr Pulse', version: '0.3.0', synthetic: true, as_of: clock, hospital_timezone: 'America/Chicago' }, hospital: 'St. Mary’s', sources: [],
+ meta: { application: 'symPulse', version: '0.3.0', synthetic: true, as_of: clock, hospital_timezone: 'America/Chicago' }, hospital: 'St. Mary’s', sources: [],
  analysis: { as_of: clock, engine_version: 'test', input_hash: 'hash', window: { start: clock, end: '2026-11-08T14:00:00Z' },
  data_quality: { relationship_issues: [], missing_input_tables: [], source_delivery_freshness: 'not_measured', completeness_limited: false },
  units: [{ unit_id: 'ICU', facility_id: 'FAC-01', display_name: 'ICU', investigation_id: 'FAC-01:ICU:readiness', priority: 'high', reason_codes: ['coverage'], coverage_status: 'gap', uncovered_rn_hours: 36, provider_exposure_hours: 19, vendor_visits_not_ready: 1, overtime_drift: true, quality_report_review: true, data_issues: [], status: 'concern' }] },

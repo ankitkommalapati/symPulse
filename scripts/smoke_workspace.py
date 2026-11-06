@@ -41,7 +41,7 @@ def main():
                 raise RuntimeError('Workspace service did not become ready')
             with urllib.request.urlopen(base, timeout=5) as response:
                 html = response.read().decode()
-                assert 'symplr Pulse' in html
+                assert 'symPulse' in html
             assets = re.findall(r'(?:src|href)="(/assets/[^\"]+)"', html)
             assert assets, 'Built entry assets are missing'
             for path in assets:

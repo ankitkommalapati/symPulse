@@ -1,4 +1,4 @@
-# symplr Pulse
+# symPulse
 
 **From cross-product operational signals to an evidence-backed decision for the next 72 hours.**
 
