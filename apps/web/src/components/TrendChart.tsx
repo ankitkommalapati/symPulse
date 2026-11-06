@@ -25,12 +25,12 @@ export default function TrendChart({ trend }: { trend: ShiftDrift }) {
       onKeyDown={event => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); setSafe(index + (event.key === 'ArrowRight' ? 1 : -1)); } }}>
       <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={`${id}-title`} onMouseMove={event => { const box = event.currentTarget.getBoundingClientRect(); setSafe(Math.round(((event.clientX - box.left) / box.width * width - left) / (width - left - right) * (points.length - 1))); }}>
         <title id={`${id}-title`}>Overtime share by work date. Frozen baseline {percent(trend.baseline.mean_share)}.</title>
-        <rect x={left} y={top} width={x(changeIndex) - left} height={height - top - bottom} fill="#f2f5f2" rx="4" />
-        {[0, 0.25, 0.5, 0.75, 1].map(fraction => <g key={fraction}><line x1={left} x2={width - right} y1={y(max * fraction)} y2={y(max * fraction)} stroke="#e6ebe8" strokeDasharray="3 5" /><text x={left - 10} y={y(max * fraction) + 4} textAnchor="end" className="chart-axis">{number(max * fraction * 100)}%</text></g>)}
-        <line x1={left} x2={width - right} y1={y(trend.baseline.mean_share)} y2={y(trend.baseline.mean_share)} stroke="#78a499" strokeDasharray="6 5" />
-        <path d={commands.join(' ')} fill="none" stroke="#b0742f" strokeWidth="2.6" strokeLinejoin="round" />
-        <line x1={x(index)} x2={x(index)} y1={top} y2={height - bottom} stroke="#456b60" strokeDasharray="2 4" />
-        {selected.share !== null ? <circle cx={x(index)} cy={y(selected.share)} r="4.5" fill="#b0742f" stroke="white" strokeWidth="2" /> : null}
+        <rect x={left} y={top} width={x(changeIndex) - left} height={height - top - bottom} fill="var(--surface-soft)" rx="4" />
+        {[0, 0.25, 0.5, 0.75, 1].map(fraction => <g key={fraction}><line x1={left} x2={width - right} y1={y(max * fraction)} y2={y(max * fraction)} stroke="var(--border)" strokeDasharray="3 5" /><text x={left - 10} y={y(max * fraction) + 4} textAnchor="end" className="chart-axis">{number(max * fraction * 100)}%</text></g>)}
+        <line x1={left} x2={width - right} y1={y(trend.baseline.mean_share)} y2={y(trend.baseline.mean_share)} stroke="var(--chart-baseline)" strokeDasharray="6 5" />
+        <path d={commands.join(' ')} fill="none" stroke="var(--chart-line)" strokeWidth="2.6" strokeLinejoin="round" />
+        <line x1={x(index)} x2={x(index)} y1={top} y2={height - bottom} stroke="var(--chart-cursor)" strokeDasharray="2 4" />
+        {selected.share !== null ? <circle cx={x(index)} cy={y(selected.share)} r="4.5" fill="var(--chart-line)" stroke="var(--surface)" strokeWidth="2" /> : null}
         {[0, Math.floor(points.length * 0.33), Math.floor(points.length * 0.66), points.length - 1].map(i => <text key={i} x={x(i)} y={height - 9} textAnchor="middle" className="chart-axis">{day(points[i].date)}</text>)}
       </svg>
     </div>

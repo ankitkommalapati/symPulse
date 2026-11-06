@@ -5,6 +5,7 @@ import { dateTime, readRoute } from './lib/format';
 import { useBundle } from './lib/api';
 import { ErrorState, Loading } from './components/Common';
 import Overview from './components/Overview';
+import ThemeToggle from './components/ThemeToggle';
 import Investigations from './components/Investigations';
 import type { DrawerSelection } from './components/EvidenceDrawer';
 
@@ -30,7 +31,7 @@ function Workspace({ route, clock, revision, retry, changeClock }: { route: Rout
       ].map(({ id, label, icon: Icon }) => <a key={id} href={`#${id}`} className={activePage === id ? 'active' : ''} aria-current={activePage === id ? 'page' : undefined}><Icon size={18} /><span>{label}</span>{id === 'investigations' && highCount ? <b>{highCount}</b> : null}</a>)}</nav>
       <div className="sidebar-bottom"><div className="sidebar-note"><ShieldCheck size={20} /><strong>Clarity you can trace.</strong><p>Every investigation leads back to its supporting records.</p></div><div className="demo-label"><span />SYNTHETIC DEMONSTRATION</div></div>
     </aside>
-    <div className="app-main"><header className="topbar"><div className="hospital"><Building2 size={18} /><span>{bundle?.hospital || 'Hospital operations'}</span></div><div className="header-actions"><button className="snapshot-control" disabled={!bundle} onClick={() => setSnapshotOpen(true)}><Clock3 size={16} /><span><small>KNOWLEDGE SNAPSHOT</small><strong>{bundle ? dateTime(bundle.analysis.as_of, bundle.meta.hospital_timezone, { timeZoneName: 'short' }) : 'Loading snapshot…'}</strong></span><ChevronDown size={13} /></button><button className="icon-button refresh" aria-label="Refresh current snapshot" onClick={retry}><RefreshCw size={17} /></button><span className="avatar" aria-label="Operations reviewer">OP</span></div></header>
+    <div className="app-main"><header className="topbar"><div className="hospital"><Building2 size={18} /><span>{bundle?.hospital || 'Hospital operations'}</span></div><div className="header-actions"><ThemeToggle /><button className="snapshot-control" disabled={!bundle} onClick={() => setSnapshotOpen(true)}><Clock3 size={16} /><span><small>KNOWLEDGE SNAPSHOT</small><strong>{bundle ? dateTime(bundle.analysis.as_of, bundle.meta.hospital_timezone, { timeZoneName: 'short' }) : 'Loading snapshot…'}</strong></span><ChevronDown size={13} /></button><button className="icon-button refresh" aria-label="Refresh current snapshot" onClick={retry}><RefreshCw size={17} /></button><span className="avatar" aria-label="Operations reviewer">OP</span></div></header>
       <main id="main-content" className="workspace" tabIndex={-1}>{resource.status === 'loading' ? <Loading /> : resource.status === 'error' ? <ErrorState message={resource.message} retry={retry} /> : <Suspense fallback={<Loading />}>
         {route.page === 'overview' ? <Overview bundle={resource.data} /> : route.page === 'investigations' ? <Investigations bundle={resource.data} /> : route.page === 'verification' ? <Verification clock={resource.data.analysis.as_of} /> : route.page === 'sources' ? <Sources bundle={resource.data} openDrawer={openDrawer} /> : <Investigation key={`${route.id}:${resource.data.analysis.as_of}`} id={route.id} bundle={resource.data} revision={revision} retry={retry} openDrawer={openDrawer} />}
       </Suspense>}</main>
