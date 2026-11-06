@@ -24,7 +24,7 @@ function Workspace({ route, clock, revision, retry, changeClock }: { route: Rout
   const highCount = bundle?.analysis.units.filter(unit => unit.priority === 'high').length;
   return <div className="app-shell">
     <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); document.getElementById('main-content')?.focus(); }}>Skip to workspace</a>
-    <aside className="sidebar"><a className="brand" href="#overview" aria-label="symplr Pulse home"><span className="brand-mark"><Activity size={24} /></span><span><strong>symplr<span>pulse</span></strong><small>OPERATIONAL INTELLIGENCE</small></span></a>
+    <aside className="sidebar"><a className="brand" href="#overview" aria-label="symPulse home"><span className="brand-mark"><Activity size={24} /></span><span><strong>sym<span>Pulse</span></strong><small>OPERATIONAL INTELLIGENCE</small></span></a>
       <div className="nav-label">WORKSPACE</div><nav aria-label="Main navigation">{[
         { id: 'overview', label: 'Overview', icon: LayoutDashboard }, { id: 'investigations', label: 'Investigations', icon: Files }, { id: 'sources', label: 'Data sources', icon: Database }, { id: 'verification', label: 'Demo evidence', icon: ShieldCheck },
       ].map(({ id, label, icon: Icon }) => <a key={id} href={`#${id}`} className={activePage === id ? 'active' : ''} aria-current={activePage === id ? 'page' : undefined}><Icon size={18} /><span>{label}</span>{id === 'investigations' && highCount ? <b>{highCount}</b> : null}</a>)}</nav>
@@ -34,7 +34,7 @@ function Workspace({ route, clock, revision, retry, changeClock }: { route: Rout
       <main id="main-content" className="workspace" tabIndex={-1}>{resource.status === 'loading' ? <Loading /> : resource.status === 'error' ? <ErrorState message={resource.message} retry={retry} /> : <Suspense fallback={<Loading />}>
         {route.page === 'overview' ? <Overview bundle={resource.data} /> : route.page === 'investigations' ? <Investigations bundle={resource.data} /> : route.page === 'verification' ? <Verification clock={resource.data.analysis.as_of} /> : route.page === 'sources' ? <Sources bundle={resource.data} openDrawer={openDrawer} /> : <Investigation key={`${route.id}:${resource.data.analysis.as_of}`} id={route.id} bundle={resource.data} revision={revision} retry={retry} openDrawer={openDrawer} />}
       </Suspense>}</main>
-      <footer className="workspace-footer"><span>symplr Pulse · Concept prototype</span><span>Evidence-backed operational decision support</span></footer>
+      <footer className="workspace-footer"><span>symPulse · Concept prototype</span><span>Evidence-backed operational decision support</span></footer>
     </div>
     <Suspense fallback={null}>{drawer && bundle ? <EvidenceDrawer key={`${drawer.title}:${drawer.initialRecord || ''}`} selection={drawer} zone={bundle.meta.hospital_timezone} close={() => setDrawer(null)} /> : null}{snapshotOpen && bundle ? <SnapshotDialog current={bundle.analysis.as_of} defaultClock={bundle.meta.as_of} zone={bundle.meta.hospital_timezone} close={() => setSnapshotOpen(false)} change={changeClock} /> : null}</Suspense>
   </div>;

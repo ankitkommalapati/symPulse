@@ -1,10 +1,10 @@
-# symplr Pulse — Mission: Impact
+# symPulse — Mission: Impact
 
 ## Submission abstract
 
 Healthcare operations teams make decisions across staffing, provider privileges, vendor access and quality reporting. Each system provides useful signals, but assembling the next operational decision still requires context across domains.
 
-symplr Pulse is a concept prototype that turns workflow-informed synthetic records into one evidence-backed readiness investigation. Transparent rules identify gradual overtime drift, upcoming coverage gaps and time-bounded dependencies. Leaders inspect source evidence, compare constrained staffing responses and save a reviewable proposal with owners, deadlines and an audit trail.
+symPulse is a concept prototype that turns workflow-informed synthetic records into one evidence-backed readiness investigation. Transparent rules identify gradual overtime drift, upcoming coverage gaps and time-bounded dependencies. Leaders inspect source evidence, compare constrained staffing responses and save a reviewable proposal with owners, deadlines and an audit trail.
 
 The demonstration starts with a 36 nursing-hour ICU gap. Two eligible internal moves cover 24 hours while preserving donor coverage. A hybrid proposal models the remaining capacity through one hypothetical agency shift. Under explicit rates, that proposal differs from agency-only staffing by $2,640 in incremental coverage cost. The assumptions and residual risks remain visible.
 

@@ -40,7 +40,7 @@ def check(settings):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="symplr Pulse service")
+    parser = argparse.ArgumentParser(description="symPulse service")
     parser.add_argument("command", choices=("prepare", "check", "serve", "demo"))
     parser.add_argument("--port", type=int, help="Listener port for serve/demo")
     args = parser.parse_args()

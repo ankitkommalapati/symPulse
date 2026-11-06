@@ -1,4 +1,4 @@
-# symplr Pulse — product and workflow research
+# symPulse — product and workflow research
 
 Research date: **November 5, 2026**. Public-source diligence, not an internal product audit. Current product pages take precedence over older naming in brochures. Product marketing describes intended capabilities; it does not prove deployment status at a particular customer.
 

@@ -1,3 +1,3 @@
-"""symplr Pulse operational intelligence application."""
+"""symPulse operational intelligence application."""
 
 __version__ = "0.7.0"

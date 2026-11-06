@@ -31,7 +31,7 @@ class WorkspaceDeliveryTests(unittest.TestCase):
     def test_static_assets_do_not_shadow_api_or_expose_project_files(self):
         dist = self.root / 'apps/web/dist'
         (dist / 'assets').mkdir(parents=True)
-        (dist / 'index.html').write_text('<html><title>symplr Pulse</title></html>')
+        (dist / 'index.html').write_text('<html><title>symPulse</title></html>')
         (dist / 'pulse.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg"/>')
         (dist / 'assets/app.js').write_text('console.log("Pulse")')
         (dist / 'secret.txt').write_text('private')
@@ -42,7 +42,7 @@ class WorkspaceDeliveryTests(unittest.TestCase):
         self.assertIn('text/html', index.headers['content-type'])
         self.assertEqual(client.get('/assets/app.js').status_code, 200)
         self.assertIn('image/svg+xml', client.get('/pulse.svg').headers['content-type'])
-        self.assertEqual(client.get('/api/meta').json()['application'], 'symplr Pulse')
+        self.assertEqual(client.get('/api/meta').json()['application'], 'symPulse')
         for path in ('/assets/unknown.js', '/assets/%2e%2e/secret.txt', '/secret.txt', '/api/unknown', '/investigation/ICU'):
             with self.subTest(path=path):
                 self.assertEqual(client.get(path).status_code, 404)
