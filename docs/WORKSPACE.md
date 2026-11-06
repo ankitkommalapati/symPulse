@@ -20,6 +20,12 @@ For frontend development, keep the API on its default port and run `npm --prefix
 
 React and Vite keep the existing Python service as the application runtime. This replaces the proposed Next.js frontend for this prototype: server rendering is unnecessary for an internal operational workspace, and a static build avoids a second application server. Exact dependency versions and the npm lockfile make installation reproducible.
 
+## Appearance
+
+The sun/moon button in the header switches between light and dark mode. The selection is saved in browser storage and shared across tabs. With no saved selection, the workspace follows the system color preference, including changes while open. If storage is blocked, switching still works for the current mounted workspace. A small same-origin script applies the initial theme before the interface paints.
+
+Brand backgrounds use `#6100DC` with purple-tinted supporting surfaces. The unspaced `symPulse` wordmark keeps its green `Pulse` text in both themes. Cards, charts, forms and evidence dialogs share theme tokens; amber and blue continue to distinguish operational statuses.
+
 ## Review flow
 
 1. **Overview:** six department summaries, actual hour/visit measurements, one high-priority ICU investigation and one informational Step-down reporting review at the default clock. No invented health score or clinical risk probability.
