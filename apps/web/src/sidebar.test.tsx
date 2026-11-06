@@ -1,35 +1,36 @@
-import { act, cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import App from './App';
 vi.mock('./lib/api', async importOriginal => ({ ...await importOriginal<typeof import('./lib/api')>(), useBundle: () => ({ status: 'loading' }) }));
-beforeEach(() => {
-  const values = new Map<string, string>();
-  vi.stubGlobal('localStorage', { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => { values.set(key, value); } });
-});
-afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); history.replaceState(null, '', '/'); });
-it('collapses, retains accessible navigation, survives snapshot refresh and restores its saved choice', async () => {
-  const user = userEvent.setup(); const view = render(<App />);
-  expect(screen.queryByText('OPERATIONAL INTELLIGENCE')).not.toBeInTheDocument();
-  expect(screen.getByRole('link', { name: 'symPulse home' })).toHaveTextContent('symPulse');
-  await user.click(screen.getByRole('button', { name: 'Collapse sidebar' }));
-  expect(screen.getByRole('button', { name: 'Expand sidebar' })).toHaveAttribute('aria-expanded', 'false');
-  expect(screen.getByRole('navigation')).toHaveAttribute('id', 'workspace-navigation');
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); history.replaceState(null, '', '/'); });
+function pointer(fine: boolean) {
+  vi.stubGlobal('matchMedia', vi.fn((query: string) => ({ matches: query === '(hover: hover) and (pointer: fine)' && fine, addEventListener: vi.fn(), removeEventListener: vi.fn() })));
+}
+it('reveals navigation on hover and closes on leave without a desktop toggle', async () => {
+  pointer(true); const user = userEvent.setup(); render(<App />);
+  const sidebar = screen.getByRole('complementary', { name: 'Workspace sidebar' });
+  expect(sidebar).toHaveAttribute('data-expanded', 'false');
+  expect(screen.queryByRole('button', { name: /Open navigation|Expand sidebar|Collapse sidebar/ })).not.toBeInTheDocument();
+  await user.hover(sidebar); expect(sidebar).toHaveAttribute('data-expanded', 'true');
+  await user.unhover(sidebar); expect(sidebar).toHaveAttribute('data-expanded', 'false');
   expect(screen.getByRole('link', { name: 'Data sources' })).toHaveAttribute('href', '#sources');
-  expect(window.localStorage.getItem('sympulse.sidebar.v1')).toBe('collapsed');
-  act(() => { location.hash = '#sources'; window.dispatchEvent(new HashChangeEvent('hashchange')); });
-  expect(screen.getByRole('link', { name: 'Data sources' })).toHaveAttribute('aria-current', 'page');
-  await user.click(screen.getByRole('button', { name: 'Refresh current snapshot' }));
-  expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeVisible();
-  view.unmount(); render(<App />);
-  expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeVisible();
-  await user.click(screen.getByRole('button', { name: 'Expand sidebar' }));
-  expect(screen.getByRole('button', { name: 'Collapse sidebar' })).toHaveAttribute('aria-expanded', 'true');
+  expect(screen.queryByText('OPERATIONAL INTELLIGENCE')).not.toBeInTheDocument();
 });
-it('keeps the collapse control usable if saving preferences is blocked', async () => {
-  vi.spyOn(window.localStorage, 'getItem').mockImplementation(() => { throw new Error('Blocked'); });
-  vi.spyOn(window.localStorage, 'setItem').mockImplementation(() => { throw new Error('Blocked'); });
-  const user = userEvent.setup(); render(<App />);
-  await user.click(screen.getByRole('button', { name: 'Collapse sidebar' }));
-  expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeVisible();
+it('expands for keyboard navigation and closes after focus leaves', async () => {
+  pointer(true); const user = userEvent.setup(); render(<App />);
+  const sidebar = screen.getByRole('complementary', { name: 'Workspace sidebar' });
+  await user.tab(); await user.tab();
+  expect(screen.getByRole('link', { name: 'symPulse home' })).toHaveFocus();
+  expect(sidebar).toHaveAttribute('data-expanded', 'true');
+  for (let i = 0; i < 5; i++) await user.tab();
+  expect(screen.getByRole('button', { name: 'Switch to dark mode' })).toHaveFocus();
+  expect(sidebar).toHaveAttribute('data-expanded', 'false');
+});
+it('offers touch navigation without requiring hover', async () => {
+  pointer(false); const user = userEvent.setup(); render(<App />);
+  await user.click(screen.getByRole('button', { name: 'Open navigation' }));
+  expect(screen.getByRole('button', { name: 'Close navigation' })).toHaveAttribute('aria-expanded', 'true');
+  await user.click(screen.getByRole('button', { name: 'Close navigation' }));
+  expect(screen.getByRole('complementary', { name: 'Workspace sidebar' })).toHaveAttribute('data-expanded', 'false');
 });

@@ -26,9 +26,11 @@ The sun/moon button in the header switches between light and dark mode. The sele
 
 Brand backgrounds use `#6100DC` with purple-tinted supporting surfaces. The unspaced `symPulse` wordmark keeps its green `Pulse` text in both themes. Cards, charts, forms and evidence dialogs share theme tokens; amber and blue continue to distinguish operational statuses.
 
-The sidebar collapse button switches to a compact icon rail and saves the choice in browser storage. Navigation keeps accessible names and hover labels; the wordmark is aligned beside the icon without a subtitle. On narrow screens the collapsed navigation uses a compact row.
+The sidebar starts as a compact icon rail. A mouse hover or keyboard focus expands it over the workspace, keeping the page in place; leaving the sidebar closes it unless keyboard focus remains inside. A soft black gradient fades inward from the sidebar’s right edge in both expanded and collapsed states, staying inside its bounds. On narrow layouts the inset fade follows the bottom edge. The decorative fade does not intercept pointer input. Touch devices have an Open/Close navigation control. Navigation keeps accessible names and hover labels. The wordmark is aligned beside its icon without a subtitle.
 
-Overview metrics, Priority in Focus and every department have an information button. Hover or focus for temporary help, or click to keep it open. Escape, a second click or an outside interaction dismisses it. Department explanations distinguish current findings, missing data and checks with no finding. “No issues detected by current checks” is limited to the selected records and prototype checks; it does not certify that a department is problem-free.
+The hospital header displays St. Mary's Medical Center. The original synthetic source archive and saved evidence retain their captured names.
+
+Overview metrics, Priority in Focus and every department have an information button. Hover or focus for temporary help, or click to keep it open. Escape, a second click or an outside interaction dismisses it. Department information buttons describe only the department’s role; findings and data status remain on the card and investigation. “No issues detected by current checks” is limited to the selected records and prototype checks; it does not certify that a department is problem-free.
 
 ## Review flow
 

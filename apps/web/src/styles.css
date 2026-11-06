@@ -644,3 +644,23 @@ select:focus-visible,textarea:focus-visible{outline:3px solid var(--focus);outli
  .sidebar-collapsed .sidebar nav{grid-template-columns:repeat(4,1fr)}
  .info-tooltip{font-size:12px}.metric-label .info-button{width:22px;height:22px}
 }
+
+/* Hover/focus reveals the rail over the page without moving the workspace. */
+@media(min-width:641px){
+ .app-shell .app-main{margin-left:76px}
+ .app-shell .sidebar{width:228px;box-shadow:none}
+ .app-shell.sidebar-collapsed .sidebar{width:76px;box-shadow:none}
+ .app-shell .sidebar-header{flex-direction:row;justify-content:flex-start}
+ .app-shell .sidebar-header .brand strong{font-size:23px}
+ .app-shell.sidebar-collapsed .sidebar-header{flex-direction:column}
+}
+@media(prefers-reduced-motion:no-preference){.sidebar{transition:width .16s ease}}
+
+/* An inset black fade softens the navigation edge without covering the page. */
+@media(min-width:641px){
+ .sidebar::after{content:"";position:absolute;inset:0 0 0 auto;width:24px;background:linear-gradient(90deg,#00000000 0%,#0000000f 35%,#00000038 72%,#00000070 100%);pointer-events:none}
+}
+@media(max-width:640px){
+ .app-shell .sidebar{position:relative}
+ .sidebar::after{content:"";position:absolute;inset:auto 0 0;height:12px;background:linear-gradient(180deg,#00000000,#00000022 50%,#00000070);pointer-events:none}
+}

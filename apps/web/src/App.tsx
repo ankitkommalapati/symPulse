@@ -1,5 +1,5 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
-import { Activity, Building2, ChevronDown, Clock3, Database, Files, LayoutDashboard, RefreshCw, ShieldCheck, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Activity, Building2, ChevronDown, Clock3, Database, Files, LayoutDashboard, RefreshCw, ShieldCheck, Menu, X } from 'lucide-react';
 import type { Bundle, Route } from './types';
 import { dateTime, readRoute } from './lib/format';
 import { useBundle } from './lib/api';
@@ -15,17 +15,39 @@ const Sources = lazy(() => import('./components/Sources'));
 const EvidenceDrawer = lazy(() => import('./components/EvidenceDrawer'));
 const SnapshotDialog = lazy(() => import('./components/SnapshotDialog'));
 
-function Workspace({ route, clock, revision, retry, changeClock, collapsed, toggleSidebar }: { collapsed: boolean; toggleSidebar: () => void; route: Route; clock: string; revision: number; retry: () => void; changeClock: (clock: string) => void }) {
+function Workspace({ route, clock, revision, retry, changeClock }: { route: Route; clock: string; revision: number; retry: () => void; changeClock: (clock: string) => void }) {
   const resource = useBundle(clock, revision);
   const [drawer, setDrawer] = useState<DrawerSelection | null>(null);
   const [snapshotOpen, setSnapshotOpen] = useState(false);
+  const keyboardNavigation = useRef(true);
+  const [sidebarHovered, setSidebarHovered] = useState(false);
+  const [sidebarFocused, setSidebarFocused] = useState(false);
+  const [touchSidebarOpen, setTouchSidebarOpen] = useState(false);
+  const [finePointer, setFinePointer] = useState(() => window.matchMedia?.('(hover: hover) and (pointer: fine)').matches ?? true);
+  const collapsed = !(finePointer ? sidebarHovered || sidebarFocused : touchSidebarOpen);
+  useEffect(() => {
+    const query = window.matchMedia?.('(hover: hover) and (pointer: fine)');
+    const sync = () => { setFinePointer(query?.matches ?? true); setSidebarHovered(false); setSidebarFocused(false); setTouchSidebarOpen(false); };
+    const pointer = () => { keyboardNavigation.current = false; };
+    const keyboard = (event: KeyboardEvent) => { if (event.key === 'Tab') keyboardNavigation.current = true; };
+    query?.addEventListener('change', sync);
+    document.addEventListener('pointerdown', pointer, true);
+    document.addEventListener('keydown', keyboard, true);
+    return () => { query?.removeEventListener('change', sync); document.removeEventListener('pointerdown', pointer, true); document.removeEventListener('keydown', keyboard, true); };
+  }, []);
   const openDrawer = useCallback((selection: DrawerSelection) => setDrawer(selection), []);
   const bundle: Bundle | undefined = resource.status === 'ready' ? resource.data : undefined;
   const activePage = route.page === 'investigation' ? 'investigations' : route.page;
   const highCount = bundle?.analysis.units.filter(unit => unit.priority === 'high').length;
   return <div className={`app-shell${collapsed ? ' sidebar-collapsed' : ''}`}>
     <a className="skip-link" href="#main-content" onClick={event => { event.preventDefault(); document.getElementById('main-content')?.focus(); }}>Skip to workspace</a>
-    <aside className="sidebar"><div className="sidebar-header"><a className="brand" href="#overview" aria-label="symPulse home"><span className="brand-mark"><Activity size={24} /></span><strong>sym<span>Pulse</span></strong></a><button type="button" className="sidebar-toggle" aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!collapsed} aria-controls="workspace-navigation" onClick={toggleSidebar}>{collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}</button></div>
+    <aside className="sidebar" aria-label="Workspace sidebar" data-expanded={!collapsed}
+      onPointerEnter={event => { if (finePointer && event.pointerType !== 'touch') setSidebarHovered(true); }}
+      onPointerLeave={() => setSidebarHovered(false)}
+      onPointerDownCapture={() => setSidebarFocused(false)}
+      onFocusCapture={() => { if (finePointer) setSidebarFocused(keyboardNavigation.current); }}
+      onBlurCapture={event => { if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) setSidebarFocused(false); }}>
+<div className="sidebar-header"><a className="brand" href="#overview" aria-label="symPulse home"><span className="brand-mark"><Activity size={24} /></span><strong>sym<span>Pulse</span></strong></a>{!finePointer ? <button type="button" className="sidebar-toggle" aria-label={collapsed ? 'Open navigation' : 'Close navigation'} aria-expanded={!collapsed} aria-controls="workspace-navigation" onClick={() => setTouchSidebarOpen(value => !value)}>{collapsed ? <Menu size={17} /> : <X size={17} />}</button> : null}</div>
       <div className="nav-label">WORKSPACE</div><nav id="workspace-navigation" aria-label="Main navigation">{[
         { id: 'overview', label: 'Overview', icon: LayoutDashboard }, { id: 'investigations', label: 'Investigations', icon: Files }, { id: 'sources', label: 'Data sources', icon: Database }, { id: 'verification', label: 'Demo evidence', icon: ShieldCheck },
       ].map(({ id, label, icon: Icon }) => <a key={id} href={`#${id}`} aria-label={label} title={collapsed ? label : undefined} className={activePage === id ? 'active' : ''} aria-current={activePage === id ? 'page' : undefined}><Icon size={18} /><span>{label}</span>{id === 'investigations' && highCount ? <b>{highCount}</b> : null}</a>)}</nav>
@@ -45,13 +67,6 @@ export default function App() {
   const [route, setRoute] = useState<Route>(readRoute);
   const [clock, setClock] = useState(() => new URLSearchParams(location.search).get('as_of') || '');
   const [revision, setRevision] = useState(0);
-  const [collapsed, setCollapsed] = useState(() => {
-    try { return window.localStorage.getItem('sympulse.sidebar.v1') === 'collapsed'; } catch { return false; }
-  });
-  const toggleSidebar = () => {
-    const next = !collapsed; setCollapsed(next);
-    try { window.localStorage.setItem('sympulse.sidebar.v1', next ? 'collapsed' : 'expanded'); } catch { /* Keep the current in-memory choice. */ }
-  };
   useEffect(() => {
     const sync = () => { setRoute(readRoute()); setClock(new URLSearchParams(location.search).get('as_of') || ''); };
     window.addEventListener('hashchange', sync); window.addEventListener('popstate', sync);
@@ -62,5 +77,5 @@ export default function App() {
     const url = new URL(location.href); url.searchParams.set('as_of', value); history.replaceState(null, '', url);
     setClock(value);
   }, []);
-  return <Workspace key={`${clock}:${revision}`} route={route} clock={clock} revision={revision} retry={retry} changeClock={changeClock} collapsed={collapsed} toggleSidebar={toggleSidebar} />;
+  return <Workspace key={`${clock}:${revision}`} route={route} clock={clock} revision={revision} retry={retry} changeClock={changeClock} />;
 }

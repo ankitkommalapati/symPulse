@@ -12,9 +12,11 @@ it.skipIf(!base)('traces a real ICU measurement to captured evidence and browses
  await user.click(screen.getByRole('button', { name: 'Switch to dark mode' }));
  expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
  expect(screen.getByRole('link', { name: 'symPulse home' })).toHaveTextContent('symPulse');
- await user.click(screen.getByRole('button', { name: 'Collapse sidebar' }));
- expect(screen.getByRole('button', { name: 'Expand sidebar' })).toBeVisible();
+ const sidebar = screen.getByRole('complementary', { name: 'Workspace sidebar' });
+ await user.hover(sidebar); expect(sidebar).toHaveAttribute('data-expanded', 'true');
+ await user.unhover(sidebar); expect(sidebar).toHaveAttribute('data-expanded', 'false');
  await user.click(await screen.findByRole('button', { name: 'About Uncovered nursing hours' }, { timeout: 10000 }));
+ expect(screen.getByText("St. Mary's Medical Center")).toBeVisible();
  expect(screen.getByRole('tooltip')).toHaveTextContent('36 RN-hours');
  await user.keyboard('{Escape}');
  await user.click(await screen.findByRole('link', { name: 'Open investigation' }, { timeout: 10000 }));

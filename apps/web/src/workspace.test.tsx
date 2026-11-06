@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, expect, it, vi } from 'vitest';
 import type { Bundle, SourceRecord } from './types';
 import { fetchJson, useBundle, withClock } from './lib/api';
-import { dateTime, readRoute } from './lib/format';
+import { dateTime, readRoute, hospitalName } from './lib/format';
 import Overview from './components/Overview';
 import TrendChart from './components/TrendChart';
 import EvidenceDrawer from './components/EvidenceDrawer';
@@ -81,4 +81,9 @@ it('supplies explanations for all summary metrics, focus and each department', a
   expect(screen.getByRole('tooltip')).toBeVisible();
   await user.keyboard('{Escape}');
  }
+});
+
+it('uses the requested hospital display name while retaining other facility names', () => {
+ expect(hospitalName("St. Mary's Demo Medical Center")).toBe("St. Mary's Medical Center");
+ expect(hospitalName('Another Hospital')).toBe('Another Hospital');
 });
