@@ -279,9 +279,10 @@ def generate(seed, output):
         db_tmp.unlink()
     conn = sqlite3.connect(db_tmp)
     for table, records in sorted(tables.items()):
-        data = "".join(json.dumps(r, sort_keys=True, separators=(",", ":")) + "\n" for r in records)
-        (output / (table + ".jsonl")).write_text(data)
-        manifest["tables"][table] = {"records": len(records), "sha256": hashlib.sha256(data.encode()).hexdigest()}
+        data = "".join(json.dumps(r, sort_keys=True, separators=(",", ":")) + "\n" for r in records).encode("utf-8")
+        # Persist exactly the bytes hashed by the manifest, without text-mode newline conversion.
+        (output / (table + ".jsonl")).write_bytes(data)
+        manifest["tables"][table] = {"records": len(records), "sha256": hashlib.sha256(data).hexdigest()}
         columns = sorted(set().union(*(r.keys() for r in records)))
         inferred = {}
         for column in columns:
